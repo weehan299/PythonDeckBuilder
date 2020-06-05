@@ -136,7 +136,7 @@ class Signup extends Component {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="#/signup" variant="body2">
                   Do not have an Account? Sign up
                 </Link>
               </Grid>

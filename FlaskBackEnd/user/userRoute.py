@@ -1,8 +1,4 @@
 from flask import Blueprint, request, jsonify
-from admin import firebase, db
-import requests
-import json
-import firebase_admin
 
 from user.userAuth import UserAuthentication
 
