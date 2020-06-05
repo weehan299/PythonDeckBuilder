@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 //logo
-import Logo from "../image/brain.png"
+import Logo from "../image/brain.png";
 
 axios.default.baseURL =
   "https://us-central1-ankideckbuilder.cloudfunctions.net/api";
@@ -53,8 +53,6 @@ const styles = (theme) => ({
   },
 });
 
-
-
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -65,49 +63,57 @@ class Signup extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      errors: {}
+      errors: {},
     };
   }
 
-  handleChange = (event) => {
-      this.setState({
-        [event.target.name]: event.target.value
-      })
-  }
+  handleChange = (events) => {
+    this.setState({
+      [events.target.name]: events.target.value,
+    });
+  };
 
   handleSubmit = (event) => {
-      event.preventDefault();
-      const userInfo = {
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          password: this.state.password,
-          confirmPassword: this.state.confirmPassword
-      }
-      axios.post('https://us-central1-ankideckbuilder.cloudfunctions.net/api/signup', userInfo)
-        .then(res => {
-            console.log("hello",res)
-            this.props.history.push('/')
-        })
-        .catch(err => {
-            this.setState({
-                errors: err.response.data
-            }, console.log(this.state.errors))
-        })
-        console.log("form submitted")
-  }
+    event.preventDefault();
+    const userInfo = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+    };
+    axios
+      .post("/signup", userInfo)
+      .then((res) => {
+        console.log("hello", res);
+        this.props.history.push("/");
+      })
+      .catch((err) => {
+        this.setState(
+          {
+            errors: err.response.data,
+          },
+          console.log(this.state.errors)
+        );
+      });
+    console.log("form submitted");
+  };
 
   render() {
     const { classes } = this.props;
-    const {errors} = this.state;
+    const { errors } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
-            <img src={Logo} alt="brain logo" height="50" width="50"/>
+          <img src={Logo} alt="brain logo" height="50" width="50" />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={this.handleSubmit}
+          >
             <Grid container spacing={2}>
               <Grid item sm={6}>
                 <TextField
@@ -159,8 +165,10 @@ class Signup extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  error={errors.general ? true : false}
-                  helperText={errors.general}
+                  error={errors.password ? true : false}
+                  helperText={
+                    errors.password ? errors.password : errors.general
+                  }
                   onChange={this.handleChange}
                   value={this.state.password}
                 />
@@ -175,6 +183,8 @@ class Signup extends Component {
                   type="password"
                   id="confirmPassword"
                   autoComplete="current-password"
+                  error={errors.confirmPassword ? true : false}
+                  helperText={errors.confirmPassword}
                   onChange={this.handleChange}
                   value={this.state.confirmPassword}
                 />
@@ -191,7 +201,10 @@ class Signup extends Component {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="https://ankideckbuilder.web.app/#/login" variant="body2">
+                <Link
+                  href="https://ankideckbuilder.web.app/#/login"
+                  variant="body2"
+                >
                   Already have an account? Login
                 </Link>
               </Grid>

@@ -72,7 +72,7 @@ class Signup extends Component {
         //console.error("hello",err.response)
         this.setState({
           errors: err.response.data,
-        });
+        }, console.log(err.response.data));
       });
     console.log("form submitted");
   };
@@ -118,8 +118,8 @@ class Signup extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  error={errors.general ? true : false}
-                  helperText={errors.general}
+                  error={errors.password ? true : false}
+                  helperText={errors.password}
                   onChange={this.handleChange}
                   value={this.state.password}
                 />
@@ -136,7 +136,7 @@ class Signup extends Component {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="https://ankideckbuilder.web.app/#/signup" variant="body2">
+                <Link href="/signup" variant="body2">
                   Do not have an Account? Sign up
                 </Link>
               </Grid>

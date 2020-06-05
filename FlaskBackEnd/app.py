@@ -26,11 +26,12 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        email= request.json['email']
-        password= request.json['password']
         firstName = request.json['firstName']
         lastName = request.json['lastName']
-        return user_signup(email, password, firstName, lastName)
+        email= request.json['email']
+        password= request.json['password']
+        confirmPassword= request.json['confirmPassword']
+        return user_signup(firstName, lastName, email, password, confirmPassword)
     else:
         return 'Sign up Page'
 
@@ -38,50 +39,42 @@ def signup():
 auth = firebase.auth()
 
 
-def user_signup(email, password, firstName, lastName):
-    #check confirm password
-    new_user = auth.create_user_with_email_and_password(email, password)
-    doc_ref = db.collection(u'Users').document(email)
-    doc_ref.set({
-        u'firstName': firstName,
-        u'lastName': lastName,
-        u'email': email,
-        u'createdAt': datetime.now().isoformat(),
-        u'id': new_user['localId']
-    })
-    return jsonify(token = new_user.get('idToken'))
+def user_signup(firstName, lastName, email, password, confirmPassword):
+    try:
+        #validate password confirm password
+        if password == confirmPassword:
+            new_user = auth.create_user_with_email_and_password(email, password)
+            doc_ref = db.collection(u'Users').document(email)
+            doc_ref.set({
+                u'firstName': firstName,
+                u'lastName': lastName,
+                u'email': email,
+                u'createdAt': datetime.now().isoformat(),
+                u'id': new_user['localId']
+            })
+            return jsonify(token = new_user.get('idToken'))
+        else:
+            response = jsonify(confirmPassword = "Please make sure your passwords match")
+            response.status_code = 400
+            return response
 
-
-
-
-
-
-
-
-"""
-def user_signup(email, password, firstName, lastName):
-    try: 
-        #check confirm password
-        new_user = auth.create_user_with_email_and_password(email, password)
-        doc_ref = db.collection(u'Users').document(email)
-        doc_ref.set({
-            u'firstName': firstName,
-            u'lastName': lastName,
-            u'email': email,
-            u'createdAt': datetime.now().isoformat(),
-            u'id': new_user['localId']
-        })
-        return jsonify(token = new_user.get('idToken'))
-    except requests.exceptions.HTTPError as e: 
+    except requests.exceptions.HTTPError as e:
         #convert text into json and parse it
         error_json = e.args[1]
         error = json.loads(error_json)['error']['message']
         if error == "INVALID_EMAIL":
-            return jsonify(email = "Invalid email")
+            response = jsonify(email = "Invalid email")
+            response.status_code = 400
+            return response
         elif error == "EMAIL_EXISTS":
-            return jsonify(email = "Email already used")
+            response = jsonify(email = "Email already used")
+            response.status_code = 400
+            return response
         else: 
-            return jsonify(general = error)
+            response = jsonify(general = error)
+            response.status_code = 500
+            return response
+
 
 def user_login(email, password):
     try: 
@@ -94,15 +87,17 @@ def user_login(email, password):
         error = json.loads(error_json)['error']['message']
         if error == "INVALID_PASSWORD":
             # pass error back to front end
-            return jsonify(password = "Credentials not right")
+            response = jsonify(password = "Wrong credentials")
+            response.status_code = 400
+            return response
         elif error == "INVALID_EMAIL":
-            return jsonify(email = "Invalid Email")
+            response = jsonify(email = "Invalid email")
+            response.status_code = 400
+            return response
         else:
-            return jsonify(general = error)
-
-
-"""
-
+            response = jsonify(general = "error")
+            response.status_code = 500
+            return response
 
 
 
