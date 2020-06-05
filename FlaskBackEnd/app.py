@@ -3,16 +3,21 @@ import requests
 import json
 import firebase_admin
 from datetime import datetime
-#from firebase_admin import auth
-
 from admin import firebase, db
+
+#blueprint imports
+from user.userRoute import user_blueprint
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+app.register_blueprint(user_blueprint)
+
+"""
 @app.route('/')
 def index():
     return "hello"
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -99,6 +104,7 @@ def user_login(email, password):
             response.status_code = 500
             return response
 
+"""
 
 
 if __name__ == "__main__":

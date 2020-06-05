@@ -1,13 +1,12 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
 import pyrebase
+
 # Use a service account for firebase admin
 cred = credentials.Certificate('key.json')
 firebase_admin.initialize_app(cred)
 
-db = firestore.client()
 
 firebaseConfig = {
     "apiKey": "AIzaSyDd7ujqKTTMOHaXu8HQv8grTTNWahNEk10",
@@ -21,7 +20,10 @@ firebaseConfig = {
     "serviceAccount": "key.json"
 }
 
+#Initialise firestore database and pyrebase
+db = firestore.client()
 firebase = pyrebase.initialize_app(firebaseConfig)
+
 """
 # Initialize Firebase
 firebase.initializeApp(firebaseConfig);
