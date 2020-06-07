@@ -1,5 +1,7 @@
 #vs code stuff
 .vscode
+#anki decks
+*.apkg
 
 # Logs
 logs
