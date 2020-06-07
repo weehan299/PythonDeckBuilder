@@ -5,7 +5,8 @@ import pyrebase
 
 # Use a service account for firebase admin
 cred = credentials.Certificate('key.json')
-firebase_admin.initialize_app(cred)
+#used for loading storage
+fb_app = firebase_admin.initialize_app(cred)
 
 
 firebaseConfig = {
@@ -23,6 +24,7 @@ firebaseConfig = {
 #Initialise firestore database and pyrebase
 db = firestore.client()
 firebase = pyrebase.initialize_app(firebaseConfig)
+storage = firebase.storage()
 
 """
 # Initialize Firebase

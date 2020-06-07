@@ -24,7 +24,6 @@ my_model = genanki.Model(
 
 def create_anki_deck_with_string_input(str_title, str_input):
     dictionary = parse_string_input(str_input)
-    print(dictionary)
 
     my_deck = genanki.Deck(
         random.randrange(1 << 30, 1 << 31),
