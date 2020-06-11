@@ -4,14 +4,14 @@ from admin import firebase, db
 
 # blueprint imports
 from user.userRoute import user_blueprint
-from create_deck.create_deck_blueprint import create_deck_blueprint
+from deck.deck_blueprint import deck_blueprint
 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 app.register_blueprint(user_blueprint)
-app.register_blueprint(create_deck_blueprint)
+app.register_blueprint(deck_blueprint)
 
 
 if __name__ == "__main__":
