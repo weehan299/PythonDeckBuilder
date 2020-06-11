@@ -26,12 +26,13 @@ class Deck:
 
     def __repr__(self):
         return(
-            f'Deck(deck_name={self.deck_name}, created_by={self.created_by},\
+            f'Deck(deck_name={self.deck_name}, \
+                created_by={self.created_by},\
                 created_at={self.created_at})'
         )
 
 
-@create_deck_blueprint.route('/createdeck', methods=['POST', 'GET'])
+@create_deck_blueprint.route('/createdeck', methods=['POST'])
 def create_deck():
     if request.method == 'POST':
         user_details = user_auth.verify_and_decode_cookie()
@@ -40,7 +41,7 @@ def create_deck():
             # if unable to verify cookie, go to login page.
             return redirect('/login')
 
-        # Get user info from form 
+        # Get user info from form
         deck_input = request.form['input']
         deck_title = request.form['title']
 
@@ -58,10 +59,11 @@ def create_deck():
         # use this to print URL
         print(deck.deck_id)
 
-        #add deck to database
+        # add deck to database
         db.collection(u'Decks').document(deck.deck_id).set(deck.to_dict())
 
-        #add deck's id to user
+        # add deck's id to user
+        print(user_details.get('email'))
         db.collection(u'Users').document(user_details.get('email')) \
             .update({u'deckId': firestore.ArrayUnion([deck.deck_id])})
 
@@ -76,26 +78,48 @@ def create_deck():
 # need to authenticate user before letting them access.
 # TODO: use manage session cookies to deal with login
 # https://stackoverflow.com/questions/45181244/authentication-using-firebase-for-flask-application-running-in-appengine
-@create_deck_blueprint.route('/deck/<deck_id>', methods=['GET'])
+@create_deck_blueprint.route('/deck/<deck_id>', methods=['GET', 'DELETE'])
 def get_deck(deck_id):
     user_details = user_auth.verify_and_decode_cookie()
-
     if user_details == None:
         # if unable to verify cookie, go to login page.
         return redirect('/login')
 
     doc = db.collection(u'Users').document(user_details.get('email')).get()
-    deckId_array = doc.get('deckId')
-    #check if deck_id is in user's document in firestore, to ascertain ownership.
+    deckid_array = doc.get('deckId')
+    # check if deck_id is in user's document in firestore, to ascertain ownership.
 
-    if deck_id in deckId_array:
-        deck_blob = bucket.get_blob(f"{deck_id}.apkg")
-        if deck_blob != None:
-            url = deck_blob.generate_signed_url(
-                version="v4", expiration=datetime.timedelta(minutes=15), method="GET")
-            print(url)
-            return redirect(url)
+    if request.method == 'GET':
+
+        if deck_id in deckid_array:
+            deck_blob = bucket.get_blob(f"{deck_id}.apkg")
+            if deck_blob != None:
+                url = deck_blob.generate_signed_url(
+                    version="v4", expiration=datetime.timedelta(minutes=15), method="GET")
+                print(url)
+                return redirect(url)
+            else:
+                return "Sorry deck does not exist"
         else:
-            return "Sorry deck does not exist"
-    else:
-        return "sorry deck is not yours bitch"
+            return "sorry deck is not yours bitch"
+
+    elif request.method == "DELETE":
+        # if deck id is in user's deck, delete deck
+
+        if deck_id in deckid_array:
+
+            # delete deck document from deck collection
+            db.collection(u'Decks').document(deck_id).delete()
+
+            # update user's deckid array
+            deckid_array.remove(deck_id)
+            db.collection(u'Users').document(user_details.get('email')) \
+                .update({u'deckId': deckid_array})
+
+            # delete from storage
+            bucket.get_blob(f"{deck_id}.apkg").delete()
+
+            return f'{deck_id}.apkg deleted'
+        else:
+            return 'deck does not exist'
+

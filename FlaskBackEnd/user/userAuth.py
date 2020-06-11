@@ -19,7 +19,8 @@ class UserAuthentication:
             if password == confirmPassword:
                 new_user = self.auth.create_user_with_email_and_password(
                     email, password)
-                doc_ref = db.collection(u'Users').document(email)
+                # lowercased email so easier to query for document
+                doc_ref = db.collection(u'Users').document(email.lower())
                 doc_ref.set({
                     u'firstName': firstName,
                     u'lastName': lastName,
@@ -38,7 +39,7 @@ class UserAuthentication:
                 return response
 
         except requests.exceptions.HTTPError as e:
-            #these are pyrebase exceptions.
+            # these are pyrebase exceptions.
             # convert text into json and parse it
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
@@ -109,7 +110,7 @@ class UserAuthentication:
         try:
             decoded_claims = firebase_admin.auth.verify_session_cookie(
                 session_cookie, check_revoked=True)
-            #print(decoded_claims)
+            # print(decoded_claims)
             return decoded_claims
         except firebase_admin.auth.InvalidSessionCookieError:
             # Session cookie is invalid, expired or revoked. Force user to login.
