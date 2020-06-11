@@ -38,7 +38,7 @@ const styles = (theme) => ({
   },
 });
 
-class Signup extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -148,8 +148,8 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
+Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(Login);

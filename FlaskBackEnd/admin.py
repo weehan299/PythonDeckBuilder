@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import storage
 import pyrebase
 
 # Use a service account for firebase admin
@@ -23,8 +24,10 @@ firebaseConfig = {
 
 #Initialise firestore database and pyrebase
 db = firestore.client()
+bucket = storage.bucket(firebaseConfig["storageBucket"])
 firebase = pyrebase.initialize_app(firebaseConfig)
-storage = firebase.storage()
+#pyrebase's strorage
+#storage = firebase.storage()
 
 """
 # Initialize Firebase

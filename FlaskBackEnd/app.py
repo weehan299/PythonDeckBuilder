@@ -15,4 +15,4 @@ app.register_blueprint(create_deck_blueprint)
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=True)
