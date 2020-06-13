@@ -105,12 +105,18 @@ def get_deck(deck_id):
             if deck_blob != None:
                 url = deck_blob.generate_signed_url(
                     version="v4", expiration=datetime.timedelta(minutes=15), method="GET")
-                print(url)
-                return redirect(url)
+                response = jsonify(status="Success", URL=url)
+                return response
             else:
-                return "Sorry deck does not exist"
+                response = jsonify(
+                    status="Failed", message="Deck does not exist")
+                response.status_code = 400
+                return response
         else:
-            return "sorry deck is not yours bitch"
+            response = jsonify(
+                status="Failed", message="Deck is not yours")
+            response.status_code = 400
+            return response
 
     elif request.method == "DELETE":
         # if deck id is in user's deck, delete deck
@@ -128,7 +134,10 @@ def get_deck(deck_id):
             # delete from storage
             bucket.get_blob(f"{deck_id}.apkg").delete()
 
-            return f'{deck_id}.apkg deleted'
+            response = jsonify(
+                status="Success", message="f{deck_id}.apkg deleted")
+            response.status_code = 200
+            return response
         else:
             return 'deck does not exist'
 

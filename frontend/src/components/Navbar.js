@@ -28,6 +28,7 @@ export default function ButtonAppBar() {
           </Typography>
           <Button color="inherit" component={Link} to='/login'>Login</Button>
           <Button color="inherit"component={Link} to='/signup'>Sign up</Button>
+          <Button color="inherit"component={Link} to='/createdeck'>Create Deck</Button>
         </Toolbar>
       </AppBar>
     </div>

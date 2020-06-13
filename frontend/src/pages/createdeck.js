@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +13,7 @@ export class CreateDeck extends Component {
         this.state = {
             title: "",
             input: "",
+            status:"hahahah",
             errors: {}
         }
     }
@@ -31,7 +32,12 @@ export class CreateDeck extends Component {
         }
         axios
         .post("/createdeck", deckInfo)
-        .then(res => console.log(res.response))
+        .then(res => {
+            console.log(res.data.status)
+            this.setState({
+                status: res.data.status
+            })
+        })
         .catch(error => {
             console.log(error.response.data.error)
             if(error.response.data.error === "User not authenticated") {
@@ -79,6 +85,11 @@ export class CreateDeck extends Component {
                         color="primary"
                         >Create Deck
                         </Button>
+                        {   
+                            this.state.status === "Success"
+                            ? <Typography> Deck Created Successfully</Typography>
+                            : <Typography>Enter Deck's Title and contents above</Typography>
+                        }
                     </form>
                 </div>
             </Container>
