@@ -13,9 +13,10 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Home from "./pages/home";
+import CreateDeck from "./pages/createdeck";
+import Profile from "./pages/profile";
 
 import axios from 'axios';
-import CreateDeck from "./pages/createdeck";
 
 axios.default.baseURL = 
   "http://127.0.0.1:5000/";
@@ -48,6 +49,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/createdeck" component={CreateDeck} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         </Router>
       </div>

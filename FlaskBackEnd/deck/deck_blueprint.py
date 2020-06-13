@@ -135,7 +135,7 @@ def get_deck(deck_id):
             bucket.get_blob(f"{deck_id}.apkg").delete()
 
             response = jsonify(
-                status="Success", message="f{deck_id}.apkg deleted")
+                status="Success", message=f"{deck_id}.apkg deleted")
             response.status_code = 200
             return response
         else:

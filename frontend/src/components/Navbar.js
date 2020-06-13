@@ -26,9 +26,10 @@ export default function ButtonAppBar() {
           <Typography color="inherit" variant="h6" className={classes.title} component={Link} to='/'>
             Anki Deck Builder
           </Typography>
+          <Button color="inherit"component={Link} to='/profile'>Profile</Button>
+          <Button color="inherit"component={Link} to='/createdeck'>Create Deck</Button>
           <Button color="inherit" component={Link} to='/login'>Login</Button>
           <Button color="inherit"component={Link} to='/signup'>Sign up</Button>
-          <Button color="inherit"component={Link} to='/createdeck'>Create Deck</Button>
         </Toolbar>
       </AppBar>
     </div>
