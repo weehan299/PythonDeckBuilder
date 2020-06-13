@@ -37,13 +37,19 @@ def create_deck():
     if request.method == 'POST':
         user_details = user_auth.verify_and_decode_cookie()
 
+        print(user_details.get('email'))
         if user_details == None:
             # if unable to verify cookie, go to login page.
-            return redirect('/login')
+            # need to redirect front end to login page not backend.
+            response = jsonify(
+                error="User not authenticated")
+            response.status_code = 500
+            return response
 
+        print(request.json)
         # Get user info from form
-        deck_input = request.form['input']
-        deck_title = request.form['title']
+        deck_input = request.json['input']
+        deck_title = request.json['title']
 
         create_anki_deck_with_string_input(deck_title, deck_input)
 
@@ -53,7 +59,7 @@ def create_deck():
 
         # upload files to storage
         bucket.blob(f"{deck.deck_id}.apkg").upload_from_filename(
-            f"social psych deck.apkg")
+            f"{deck_title}.apkg")
         # remove deck from server
         os.remove(f"{deck_title}.apkg")
         # use this to print URL
@@ -67,7 +73,10 @@ def create_deck():
         db.collection(u'Users').document(user_details.get('email')) \
             .update({u'deckId': firestore.ArrayUnion([deck.deck_id])})
 
-        return 'deck created'
+        response = jsonify(
+            status="Success")
+        response.status_code = 200
+        return response
     else:
         # TODO: login page
         return "hello"

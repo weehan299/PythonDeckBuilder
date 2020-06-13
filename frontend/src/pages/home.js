@@ -9,6 +9,7 @@ export class Home extends Component {
     return (
       <Container maxWidth="xs">
         <div>
+          <p>hello hehe</p>
           <img src={Logo} alt="brain logo" height="50" width="50" />
           <img src={Logo} alt="brain logo" height="50" width="50" />
           <img src={Logo} alt="brain logo" height="50" width="50" />
