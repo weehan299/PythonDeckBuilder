@@ -64,7 +64,7 @@ export class Profile extends Component {
                 <Table size="small" aria-label="All the user's decks">
                     <TableHead>
                         <TableCell>Deck</TableCell>
-                        <TableCell>created At</TableCell>
+                        <TableCell>Created at</TableCell>
                         <TableCell>Download</TableCell>
                     </TableHead>
                     <TableBody>

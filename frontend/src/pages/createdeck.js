@@ -6,14 +6,13 @@ import Grid from "@material-ui/core/Grid";
 
 import axios from 'axios';
 
-
 export class CreateDeck extends Component {
     constructor(props) {
         super(props)
         this.state = {
             title: "",
             input: "",
-            status:"hahahah",
+            status:"",
             errors: {}
         }
     }
@@ -58,7 +57,7 @@ export class CreateDeck extends Component {
                             required
                             fullWidth
                             name="title"
-                            label="title"
+                            label="Deck Title"
                             type="text"
                             id="title"
                             multiline={false}
@@ -71,7 +70,7 @@ export class CreateDeck extends Component {
                             fullWidth
                             name="input"
                             margin='dense'
-                            label="input"
+                            label="Deck content"
                             type="text"
                             id="input"
                             multiline={true}
