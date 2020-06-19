@@ -1,29 +1,35 @@
-from flask import request, jsonify, abort, redirect
-from admin import firebase, db
+"""authenticate user"""
+import json
 from datetime import datetime, timedelta
 import requests
-import json
+from flask import request, jsonify, abort
+from firebase_admin import auth
 import firebase_admin
+
+from admin import firebase, db
 
 # handled error all within user authentication. Maybe not the best way to do it.
 # Maybe better to create an exception and pass all error through it.
 
 
 class UserAuthentication:
+    """Class containing functions to authenticate users."""
+
     def __init__(self):
         self.auth = firebase.auth()
 
-    def user_signup(self, firstName, lastName, email, password, confirmPassword):
+    def user_signup(self, first_name, last_name, email, password, confirm_password):
+        """function to sign up user with fire base"""
         try:
             # validate password confirm password
-            if password == confirmPassword:
+            if password == confirm_password:
                 new_user = self.auth.create_user_with_email_and_password(
                     email, password)
                 # lowercased email so easier to query for document
                 doc_ref = db.collection(u'Users').document(email.lower())
                 doc_ref.set({
-                    u'firstName': firstName,
-                    u'lastName': lastName,
+                    u'firstName': first_name,
+                    u'lastName': last_name,
                     u'email': email,
                     u'createdAt': datetime.now().isoformat(),
                     u'deckId': [],
@@ -34,14 +40,14 @@ class UserAuthentication:
                 return self.change_token_for_cookie(token)
             else:
                 response = jsonify(
-                    confirmPassword="Please make sure your passwords match")
+                    confirm_password="Please make sure your passwords match")
                 response.status_code = 400
                 return response
 
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError as error:
             # these are pyrebase exceptions.
             # convert text into json and parse it
-            error_json = e.args[1]
+            error_json = error.args[1]
             error = json.loads(error_json)['error']['message']
             if error == "INVALID_EMAIL":
                 response = jsonify(email="Invalid email")
@@ -57,6 +63,7 @@ class UserAuthentication:
                 return response
 
     def user_login(self, email, password):
+        """ log in user via firebase"""
         try:
             user = self.auth.sign_in_with_email_and_password(email, password)
             token = user.get('idToken')
@@ -64,10 +71,10 @@ class UserAuthentication:
             # verify and change token for cookie
             return self.change_token_for_cookie(token)
 
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError as error:
             # convert text into json and parse it
             # need to find a way to pass error to front end.
-            error_json = e.args[1]
+            error_json = error.args[1]
             error = json.loads(error_json)['error']['message']
             if error == "INVALID_PASSWORD":
                 # pass error back to front end
@@ -84,23 +91,26 @@ class UserAuthentication:
                 return response
 
     def change_token_for_cookie(self, id_token):
-        try:
+        """change token for a cookie"""
+        #try:
+        expires_in = timedelta(days=5)
+        session_cookie = firebase_admin.auth.create_session_cookie(
+            id_token, expires_in=expires_in)
+        print(session_cookie)
+        # maybe can change status success for something else.
+        response = jsonify(status="success", token=id_token)
+        expires = datetime.now() + expires_in
+        response.set_cookie(
+            'session', session_cookie, expires=expires  # httponly=True, secure=True
+        )
+        print(response)
+        return response
 
-            expires_in = timedelta(days=5)
-            session_cookie = firebase_admin.auth.create_session_cookie(
-                id_token, expires_in=expires_in)
-            # maybe can change status success for something else.
-            response = jsonify(status="success", token=id_token)
-            expires = datetime.now() + expires_in
-            response.set_cookie(
-                'session', session_cookie, expires=expires  # httponly=True, secure=True
-            )
-            return response
-
-        except:
-            return abort(401, "Failed to create a session cookie")
+        #except:
+            #return abort(401, "Failed to create a session cookie")
 
     def verify_and_decode_cookie(self):
+        """verify cookie"""
         session_cookie = request.cookies.get('session')
         if not session_cookie:
             # Session cookie is unavailable.

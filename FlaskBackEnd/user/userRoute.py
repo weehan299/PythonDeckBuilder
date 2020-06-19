@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify, abort, redirect, make_response
-import datetime
-from admin import db
-from firebase_admin import auth, firestore
+"""API endpoint for user infos"""
 import json
+from flask import Blueprint, request, jsonify, redirect, make_response
+from firebase_admin import firestore
+from admin import db
 
 from user.userAuth import UserAuthentication
 
@@ -11,42 +11,41 @@ user_blueprint = Blueprint('user_blueprint', __name__)
 user_auth = UserAuthentication()
 
 
-@user_blueprint.route('/login', methods=['GET', 'POST'])
+@user_blueprint.route('/login', methods=['GET','POST'])
 def login():
+    """login user"""
     if request.method == 'POST':
         email = request.json['email']
         password = request.json['password']
         return user_auth.user_login(email, password)
-    else:
-        return 'Login Page'
+    return "Login page"
 
 
-@user_blueprint.route('/signup', methods=['GET', 'POST'])
+@user_blueprint.route('/signup', methods=['POST'])
 def signup():
-    if request.method == 'POST':
-        firstName = request.json['firstName']
-        lastName = request.json['lastName']
-        email = request.json['email']
-        password = request.json['password']
-        confirmPassword = request.json['confirmPassword']
-        return user_auth.user_signup(firstName, lastName, email, password, confirmPassword)
-    else:
-        return 'Sign up Page'
+    """user sign up"""
+    first_name = request.json['firstName']
+    last_name = request.json['lastName']
+    email = request.json['email']
+    password = request.json['password']
+    confirm_password = request.json['confirmPassword']
+    return user_auth.user_signup(first_name, last_name, email, password, confirm_password)
 
 
 @user_blueprint.route('/logout', methods=['POST'])
 def session_logout():
+    """user logout"""
     response = make_response(redirect('/login'))
     response.set_cookie('session', expires=0)
     return response
 
 
-# TODO: return a json list of deck info of the user.
 @user_blueprint.route('/profile', methods=['GET'])
 def view_profile():
+    """get user profile"""
     user_details = user_auth.verify_and_decode_cookie()
 
-    if user_details == None:
+    if user_details is None:
         # if unable to verify cookie, go to login page.
         return redirect('/login')
 

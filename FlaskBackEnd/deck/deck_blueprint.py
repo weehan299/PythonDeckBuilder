@@ -1,10 +1,11 @@
 import uuid
 import datetime
 import os
-from flask import Blueprint, request, jsonify, send_file, redirect
-from deck.anki import create_anki_deck_with_string_input
+from flask import Blueprint, request, jsonify, redirect
 from firebase_admin import firestore
 from admin import db, bucket
+from deck.anki import create_anki_deck_with_string_input
+
 # used to authenticate user via cookies
 from user.userAuth import UserAuthentication
 user_auth = UserAuthentication()
@@ -14,6 +15,7 @@ deck_blueprint = Blueprint('deck_blueprint', __name__)
 
 
 class Deck:
+    """class to create anki decks"""
     def __init__(self, deck_name, created_by, created_at):
         self.deck_name = deck_name
         self.created_by = created_by
@@ -21,6 +23,7 @@ class Deck:
         self.deck_id = str(uuid.uuid4())
 
     def to_dict(self):
+        """used to return a dictionary format"""
         return self.__dict__
 
     def __repr__(self):
@@ -31,13 +34,14 @@ class Deck:
         )
 
 
-@deck_blueprint.route('/createdeck', methods=['POST'])
+@deck_blueprint.route('/createdeck', methods=['GET', 'POST'])
 def create_deck():
+    """create deck api"""
     if request.method == 'POST':
         user_details = user_auth.verify_and_decode_cookie()
 
         print(user_details.get('email'))
-        if user_details == None:
+        if user_details is None:
             # if unable to verify cookie, go to login page.
             # need to redirect front end to login page not backend.
             response = jsonify(
@@ -45,7 +49,6 @@ def create_deck():
             response.status_code = 500
             return response
 
-        print(request.json)
         # Get user info from form
         deck_input = request.json['input']
         deck_title = request.json['title']
@@ -62,7 +65,6 @@ def create_deck():
         # remove deck from server
         os.remove(f"{deck_title}.apkg")
         # use this to print URL
-        print(deck.deck_id)
 
         # add deck to database
         db.collection(u'Decks').document(deck.deck_id).set(deck.to_dict())
@@ -76,20 +78,21 @@ def create_deck():
             status="Success")
         response.status_code = 200
         return response
-    else:
-        # TODO: login page
-        return "hello"
+
+    #TODO finish else portion of logic
+    return "hello"
 
 
-# TODO: this will be an AuthRoute in react
-# TODO: dont use deck id to save in storage, can save using user/deckname. but
+# this will be an AuthRoute in react
+# dont use deck id to save in storage, can save using user/deckname. but
 # need to authenticate user before letting them access.
-# TODO: use manage session cookies to deal with login
+# use manage session cookies to deal with login
 # https://stackoverflow.com/questions/45181244/authentication-using-firebase-for-flask-application-running-in-appengine
 @deck_blueprint.route('/deck/<deck_id>', methods=['GET', 'DELETE'])
 def get_deck(deck_id):
+    """get deck using their id"""
     user_details = user_auth.verify_and_decode_cookie()
-    if user_details == None:
+    if user_details is None:
         # if unable to verify cookie, go to login page.
         return redirect('/login')
 
@@ -101,7 +104,7 @@ def get_deck(deck_id):
 
         if deck_id in deckid_array:
             deck_blob = bucket.get_blob(f"{deck_id}.apkg")
-            if deck_blob != None:
+            if deck_blob is not None:
                 url = deck_blob.generate_signed_url(
                     version="v4", expiration=datetime.timedelta(minutes=15), method="GET")
                 response = jsonify(status="Success", URL=url)
@@ -137,6 +140,5 @@ def get_deck(deck_id):
                 status="Success", message=f"{deck_id}.apkg deleted")
             response.status_code = 200
             return response
-        else:
-            return 'deck does not exist'
 
+        return 'deck does not exist'
