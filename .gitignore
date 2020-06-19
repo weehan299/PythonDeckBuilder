@@ -250,3 +250,8 @@ cython_debug/
 
 #key
 FlaskBackEnd/key.json
+
+notes.txt
+
+#for coc settings
+.vim

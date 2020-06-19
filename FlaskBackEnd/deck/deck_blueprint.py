@@ -1,9 +1,8 @@
-from flask import Blueprint, request, jsonify, send_file, redirect
-from deck.anki import create_anki_deck_with_string_input
-import json
 import uuid
 import datetime
 import os
+from flask import Blueprint, request, jsonify, send_file, redirect
+from deck.anki import create_anki_deck_with_string_input
 from firebase_admin import firestore
 from admin import db, bucket
 # used to authenticate user via cookies

@@ -1,6 +1,7 @@
-#!/usr/bin/env python
-from flask import Flask, request, jsonify
-from admin import firebase, db
+"""Main file to run with"""
+
+# !/usr/bin/env python
+from flask import Flask
 from flask_cors import CORS
 
 # blueprint imports
