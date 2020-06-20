@@ -32,7 +32,7 @@ export class Profile extends Component {
         .get("/profile")
         .then(res => {
             console.log(res.data)
-            var results = JSON.parse(res.data)
+            var results = JSON.parse(res.data['profile'])
             var array = []
             results.forEach(x => array.push(x))
             this.setState({
@@ -73,7 +73,11 @@ export class Profile extends Component {
                                 <TableCell scope="row" component='th'>{deck.deck_name}</TableCell>
                                 <TableCell>{moment(deck.created_at).format('YYYY-MM-DD HH:mm')}</TableCell>
                                 <TableCell>
-                                    <Button variant='contained' color='secondary' onClick={() => this.handleClick(deck)} >
+                                    <Button 
+                                        variant='contained' 
+                                        color='secondary' 
+                                        onClick={() => this.handleClick(deck)} 
+                                    >
                                         download
                                     </Button>
                                 </TableCell>
