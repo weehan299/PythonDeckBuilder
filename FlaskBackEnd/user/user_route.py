@@ -8,7 +8,7 @@ from user.user_auth import UserAuthentication
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 
-user_auth = UserAuthentication()
+user_authentication = UserAuthentication()
 
 
 @user_blueprint.route('/login', methods=['GET', 'POST'])
@@ -17,7 +17,7 @@ def login():
     if request.method == 'POST':
         email = request.json['email']
         password = request.json['password']
-        return user_auth.user_login(email, password)
+        return user_authentication.user_login(email, password)
     return "Login page"
 
 
@@ -29,7 +29,7 @@ def signup():
     email = request.json['email']
     password = request.json['password']
     confirm_password = request.json['confirmPassword']
-    return user_auth.user_signup(first_name, last_name, email, password, confirm_password)
+    return user_authentication.user_signup(first_name, last_name, email, password, confirm_password)
 
 
 @user_blueprint.route('/logout', methods=['POST'])
@@ -43,7 +43,7 @@ def session_logout():
 @user_blueprint.route('/profile', methods=['GET'])
 def view_profile():
     """get user profile"""
-    user_details = user_auth.verify_and_decode_cookie()
+    user_details = user_authentication.verify_and_decode_cookie()
 
     if user_details is None:
         # if unable to verify cookie, go to login page.
@@ -52,6 +52,7 @@ def view_profile():
     # get user's deck and order them by date created.
     # complex queries require indexing in firebase (which i already created)
     print(user_details.get('email'))
+
     docs = db.collection(u'Decks').where(u'created_by', u'==', user_details.get('email')) \
         .order_by(u'created_at', direction=firestore.Query.DESCENDING)\
         .stream()
