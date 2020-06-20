@@ -4,14 +4,14 @@ from flask import Blueprint, request, jsonify, redirect, make_response
 from firebase_admin import firestore
 from admin import db
 
-from user.userAuth import UserAuthentication
+from user.user_auth import UserAuthentication
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 
 user_auth = UserAuthentication()
 
 
-@user_blueprint.route('/login', methods=['GET','POST'])
+@user_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     """login user"""
     if request.method == 'POST':

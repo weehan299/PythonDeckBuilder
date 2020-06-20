@@ -1,3 +1,5 @@
+""" config file"""
+
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 import pyrebase

@@ -5,13 +5,14 @@ from flask import Flask
 from flask_cors import CORS
 
 # blueprint imports
-from user.userRoute import user_blueprint
+from user.user_route import user_blueprint
 from deck.deck_blueprint import deck_blueprint
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 CORS(app)
+
 
 app.register_blueprint(user_blueprint)
 app.register_blueprint(deck_blueprint)

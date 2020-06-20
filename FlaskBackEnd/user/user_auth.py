@@ -2,7 +2,7 @@
 import json
 from datetime import datetime, timedelta
 import requests
-from flask import request, jsonify, abort
+from flask import request, jsonify
 from firebase_admin import auth
 import firebase_admin
 

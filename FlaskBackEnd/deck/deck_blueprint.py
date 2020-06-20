@@ -7,8 +7,8 @@ from admin import db, bucket
 from deck.anki import create_anki_deck_with_string_input
 
 # used to authenticate user via cookies
-from user.userAuth import UserAuthentication
-user_auth = UserAuthentication()
+from user.user_auth import UserAuthentication
+user_authentication = UserAuthentication()
 
 
 deck_blueprint = Blueprint('deck_blueprint', __name__)
@@ -38,7 +38,7 @@ class Deck:
 def create_deck():
     """create deck api"""
     if request.method == 'POST':
-        user_details = user_auth.verify_and_decode_cookie()
+        user_details = user_authentication.verify_and_decode_cookie()
 
         print(user_details.get('email'))
         if user_details is None:
@@ -91,7 +91,7 @@ def create_deck():
 @deck_blueprint.route('/deck/<deck_id>', methods=['GET', 'DELETE'])
 def get_deck(deck_id):
     """get deck using their id"""
-    user_details = user_auth.verify_and_decode_cookie()
+    user_details = user_authentication.verify_and_decode_cookie()
     if user_details is None:
         # if unable to verify cookie, go to login page.
         return redirect('/login')
