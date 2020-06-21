@@ -256,5 +256,3 @@ notes.txt
 #for coc settings
 .vim
 
-#script to startup server. 
-start.sh
