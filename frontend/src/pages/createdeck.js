@@ -69,7 +69,6 @@ export class CreateDeck extends Component {
             loading: true
         });
         event.preventDefault();
-        console.log("submit activated");
         const deckInfo = {
             title: this.state.title,
             input: this.state.input
@@ -166,7 +165,7 @@ export class CreateDeck extends Component {
                         aria-describedby="alert-description"
                     >
                         <DialogContent>
-                            <DialogContentText id="alert-description">
+                            <DialogContentText id="alert-description" color="inherit">
                                 Deck successfully created
                             </DialogContentText>
                             <DialogActions>
