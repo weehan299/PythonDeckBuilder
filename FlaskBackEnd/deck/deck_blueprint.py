@@ -53,6 +53,17 @@ def create_deck():
         deck_input = request.json['input']
         deck_title = request.json['title']
 
+        if deck_title.strip() == "":
+            response = jsonify(deck_title="Deck title must not empty")
+            response.status_code = 400
+            print(response.data)
+            return response
+        if deck_input.strip() == "":
+            response = jsonify(deck_input="Deck input must not empty")
+            response.status_code = 400
+            print(response.data)
+            return response
+
         create_anki_deck_with_string_input(deck_title, deck_input)
 
         #  Deck class details added

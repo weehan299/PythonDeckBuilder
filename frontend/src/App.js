@@ -16,11 +16,6 @@ import Home from "./pages/home";
 import CreateDeck from "./pages/createdeck";
 import Profile from "./pages/profile";
 
-import axios from 'axios';
-
-axios.default.baseURL = 
-  "http://127.0.0.1:5000/";
-
 const theme = createMuiTheme({
   palette: {
     primary: {

@@ -62,6 +62,5 @@ def view_profile():
     for doc in docs:
         #print(f'{doc.id} => {doc.to_dict()} \n')
         deck_list.append(doc.to_dict())
-
-    decks_in_json = json.dumps(deck_list)
-    return jsonify(decks_in_json)
+    decks_in_json = json.dumps(deck_list) 
+    return jsonify(email=user_details.get('email'), profile=decks_in_json)

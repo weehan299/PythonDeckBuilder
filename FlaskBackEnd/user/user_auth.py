@@ -11,7 +11,6 @@ from admin import firebase, db
 # handled error all within user authentication. Maybe not the best way to do it.
 # Maybe better to create an exception and pass all error through it.
 
-
 class UserAuthentication:
     """Class containing functions to authenticate users."""
 
@@ -96,7 +95,6 @@ class UserAuthentication:
         expires_in = timedelta(days=5)
         session_cookie = firebase_admin.auth.create_session_cookie(
             id_token, expires_in=expires_in)
-        print(session_cookie)
         # maybe can change status success for something else.
         response = jsonify(status="success", token=id_token)
         expires = datetime.now() + expires_in

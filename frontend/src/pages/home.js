@@ -33,7 +33,7 @@ export class Home extends Component {
     return (
       <Container maxWidth="xs">
         <div>
-            <h2> {this.state.email} </h2>
+          <h2> {this.state.email} </h2>
           <img src={Logo} alt="brain logo" height="50" width="50" />
           <img src={Logo} alt="brain logo" height="50" width="50" />
           <img src={Logo} alt="brain logo" height="50" width="50" />
