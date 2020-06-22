@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 //Link
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,42 +17,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function isLoggedIn() {
+  return localStorage.getItem("currentUser") != null ? true : false;
+}
 
+function logOut() {
+  localStorage.removeItem("currentUser")
+  localStorage.clear()
+  
+  
+  axios
+  .post("/logout")
+  .then((res) => {
+    console.log("successful logout", res)
+    
+  })
+  .catch((err) => {
+      console.log("an err", err)
+  })
 
+  window.location = '/'
+}
 
-export default function ButtonAppBar({userLoggedIn, logOut}) {
+export default function ButtonAppBar() {
   const classes = useStyles();
   
-  console.log('isLoggedin', userLoggedIn)
-  if (userLoggedIn) {
-    return (
+  let userLoggedIn = isLoggedIn();
+
+
+  console.log('userlogin', userLoggedIn)
+
+  return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" >
           <Toolbar>
             <Typography color="inherit" variant="h6" className={classes.title} component={Link} to='/'>
               Anki Deck Builder
             </Typography>
-            <Button color="inherit" component={Link} to='/profile'>Profile</Button>
-            <Button color="inherit" component={Link} to='/createdeck'>Create Deck</Button>
-            <Button color="inherit" onClick={logOut} component={Link} to='/'>Logout</Button>
+            {
+              (userLoggedIn) ?
+              <React.Fragment>
+              <Button color="inherit" component={Link} to='/profile'>Profile</Button>
+              <Button color="inherit" component={Link} to='/createdeck'>Create Deck</Button>
+              <Button color="inherit" onClick={logOut} >Logout</Button>
+              </React.Fragment>
+              :
+              <React.Fragment>
+              <Button color="inherit" component={Link} to='/login'>Login</Button>
+              <Button color="inherit" component={Link} to='/signup'>Sign up</Button>
+              </React.Fragment>
+            }
+
           </Toolbar>
         </AppBar>
       </div>
-    );
-  } else {
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography color="inherit" variant="h6" className={classes.title} component={Link} to='/'>
-              Anki Deck Builder
-            </Typography>
-            <Button color="inherit" component={Link} to='/login'>Login</Button>
-            <Button color="inherit" component={Link} to='/signup'>Sign up</Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+         
     );
   }
-}
 
