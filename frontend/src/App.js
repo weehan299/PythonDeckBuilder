@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
 //'react-router-dom
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
@@ -16,7 +16,7 @@ import Home from "./pages/home";
 import CreateDeck from "./pages/createdeck";
 import Profile from "./pages/profile";
 
-import axios from 'axios';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -34,50 +34,13 @@ const theme = createMuiTheme({
   },
 });
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.logOut = this.logOut.bind(this);
-    this.state = {
-      isLoggedIn: ""
-    };  
-  }
+function App() {
 
-  componentDidMount() {
-    console.log("App.js, isLoggedIn" )
-    if (localStorage.getItem("currentUser") != null) {
-      this.setState({isLoggedIn: true})
-      console.log("App.js, true",this.state.isLoggedIn )
-    } else {
-      this.setState({isLoggedIn: false})
-      console.log("App.js, false",this.state.isLoggedIn)
-    }
-  }
-
-  
-  logOut() {
-    this.setState({isLoggedIn: false}); 
-    localStorage.removeItem("currentUser")
-    localStorage.clear()
-    
-    axios
-    .post("/logout")
-    .then((res) => {
-      console.log("successful logout", res)
-      
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-    
-  }
-
-  render() {
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
           <Router>
-            <Navbar userLoggedIn={this.state.isLoggedIn} logOut={this.logOut}  />
+            <Navbar />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
@@ -89,7 +52,7 @@ class App extends Component {
         </div>
       </ThemeProvider>
     );
-  }
+  
   
 }
 
