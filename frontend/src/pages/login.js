@@ -65,9 +65,10 @@ class Login extends Component {
         axios
             .post("/login", userInfo)
             .then(res => {
-                localStorage.setItem('currentUser', JSON.stringify(res))
+                localStorage.setItem('currentUser', JSON.stringify(res));
                 console.log(res.data);
                 this.props.history.push("/");
+                window.location = '/';
             })
             .catch(err => {
                 //console.error("hello",err.response)
