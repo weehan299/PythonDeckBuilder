@@ -42,6 +42,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
+            // currentUser:"",
             email: "",
             password: "",
             errors: {}
@@ -64,11 +65,13 @@ class Login extends Component {
         axios
             .post("/login", userInfo)
             .then(res => {
+                localStorage.setItem('currentUser', JSON.stringify(res))
                 console.log(res.data);
                 this.props.history.push("/");
             })
             .catch(err => {
                 //console.error("hello",err.response)
+                
                 this.setState(
                     {
                         errors: err.response.data
