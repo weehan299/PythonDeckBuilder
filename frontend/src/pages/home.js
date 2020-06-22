@@ -21,7 +21,7 @@ export class Home extends Component {
             .get("/profile")
             .then(res => {
                 console.log(res.data);
-                var result = res.data["email"];
+                var result = res.data["first_name"];
                 console.log(result);
                 this.setState({
                     email: result

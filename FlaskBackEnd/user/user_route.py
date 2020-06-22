@@ -51,11 +51,15 @@ def view_profile():
 
     # get user's deck and order them by date created.
     # complex queries require indexing in firebase (which i already created)
-    print(user_details.get('email'))
 
     docs = db.collection(u'Decks').where(u'created_by', u'==', user_details.get('email')) \
         .order_by(u'created_at', direction=firestore.Query.DESCENDING)\
         .stream()
+
+    x = user_details.get('email')
+    
+    doc_ref = db.collection(u'Users').document(x).get()
+    first_name = doc_ref.get('firstName')
 
     deck_list = []
 
@@ -63,4 +67,7 @@ def view_profile():
         #print(f'{doc.id} => {doc.to_dict()} \n')
         deck_list.append(doc.to_dict())
     decks_in_json = json.dumps(deck_list) 
-    return jsonify(email=user_details.get('email'), profile=decks_in_json)
+    return jsonify( \
+            first_name=first_name, \
+            email=user_details.get('email'),\
+            profile=decks_in_json)
