@@ -25,18 +25,16 @@ function logOut() {
   localStorage.removeItem("currentUser")
   localStorage.clear()
   
-  
   axios
   .post("/logout")
   .then((res) => {
     console.log("successful logout", res)
-    
+    window.location = '/'
   })
   .catch((err) => {
       console.log("an err", err)
   })
-
-  window.location = '/'
+  
 }
 
 export default function ButtonAppBar() {
