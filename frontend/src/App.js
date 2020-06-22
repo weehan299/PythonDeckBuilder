@@ -16,7 +16,6 @@ import Home from "./pages/home";
 import CreateDeck from "./pages/createdeck";
 import Profile from "./pages/profile";
 
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -35,25 +34,22 @@ const theme = createMuiTheme({
 });
 
 function App() {
-
-    return (
-      <ThemeProvider theme={theme}>
-        <div className="App">
-          <Router>
-            <Navbar />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={Signup} />
-              <Route exact path="/createdeck" component={CreateDeck} />
-              <Route exact path="/profile" component={Profile} />
-            </Switch>
-          </Router>
-        </div>
-      </ThemeProvider>
-    );
-  
-  
+  return (
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/createdeck" component={CreateDeck} />
+            <Route exact path="/profile" component={Profile} />
+          </Switch>
+        </Router>
+      </div>
+    </ThemeProvider>
+  );
 }
 
 export default App;
