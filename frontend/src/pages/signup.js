@@ -85,9 +85,10 @@ class Signup extends Component {
     axios
       .post("/signup", userInfo)
       .then((res) => {
-        localStorage.setItem('currentUser', JSON.stringify(res))
+        localStorage.setItem('currentUser', JSON.stringify(res));
         console.log("hello", res);
         this.props.history.push("/");
+        window.location = '/';
       })
       .catch((err) => {
         

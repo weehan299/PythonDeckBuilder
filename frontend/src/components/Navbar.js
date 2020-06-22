@@ -25,6 +25,7 @@ function logOut() {
   localStorage.removeItem("currentUser")
   localStorage.clear()
   
+  
   axios
   .post("/logout")
   .then((res) => {
@@ -32,17 +33,23 @@ function logOut() {
     
   })
   .catch((err) => {
-      console.log(err)
+      console.log("an err", err)
   })
-  
+
+  window.location = '/'
 }
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  const userLoggedIn = isLoggedIn
+  
+  let userLoggedIn = isLoggedIn();
+
+
+  console.log('userlogin', userLoggedIn)
+
   return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" >
           <Toolbar>
             <Typography color="inherit" variant="h6" className={classes.title} component={Link} to='/'>
               Anki Deck Builder
@@ -52,7 +59,7 @@ export default function ButtonAppBar() {
               <React.Fragment>
               <Button color="inherit" component={Link} to='/profile'>Profile</Button>
               <Button color="inherit" component={Link} to='/createdeck'>Create Deck</Button>
-              <Button color="inherit" onClick={logOut} component={Link} to='/'>Logout</Button>
+              <Button color="inherit" onClick={logOut} >Logout</Button>
               </React.Fragment>
               :
               <React.Fragment>
