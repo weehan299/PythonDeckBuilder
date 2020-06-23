@@ -32,7 +32,7 @@ def signup():
     return user_authentication.user_signup(first_name, last_name, email, password, confirm_password)
 
 
-@user_blueprint.route('/logout', methods=['POST'])
+@user_blueprint.route('/logout', methods=['GET'])
 def session_logout():
     """user logout"""
     response = make_response(redirect('/login'))

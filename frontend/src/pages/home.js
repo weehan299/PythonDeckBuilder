@@ -18,7 +18,7 @@ export class Home extends Component {
 
     componentDidMount() {
         axios
-            .get("/profile")
+            .get("profile")
             .then(res => {
                 console.log(res.data);
                 var result = res.data["first_name"];
