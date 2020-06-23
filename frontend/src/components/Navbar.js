@@ -30,7 +30,7 @@ function logOut() {
     .post("/logout")
     .then((res) => {
       console.log("successful logout", res);
-      //window.location = "/";
+      window.location = "/";
       //a deprecated approach
       window.location.reload()
     })
@@ -68,7 +68,7 @@ export default function ButtonAppBar() {
               <Button color="inherit" component={Link} to="/createdeck">
                 Create Deck
               </Button>
-              <Button color="inherit" onClick={logOut} component={Link} to="/">
+              <Button color="inherit" onClick={logOut}>
                 Logout
               </Button>
             </React.Fragment>
