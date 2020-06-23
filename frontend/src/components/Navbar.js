@@ -45,11 +45,13 @@ class Navbar extends Component {
         axios.get("/logout")
             .then(res => {
                 console.log("successful logout", res);
+                window.location = '/';
+                this.setState({ userLoggedIn: false });
             })
             .catch(err => {
                 console.log("an err", err);
             });
-        this.setState({ userLoggedIn: false });
+        
     };
 
     render() {
@@ -75,7 +77,7 @@ class Navbar extends Component {
                                 <Button color="inherit" component={Link} to="/createdeck">
                                     Create Deck
                                 </Button>
-                                <Button color="inherit" onClick={this.logOut}>
+                                <Button color="inherit" onClick={this.logOut} >
                                     Logout
                                 </Button>
                             </React.Fragment>
