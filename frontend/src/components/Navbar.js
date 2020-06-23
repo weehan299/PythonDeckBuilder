@@ -8,22 +8,23 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-  },
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1
+    },
+    title: {
+        flexGrow: 1
+    }
 }));
 
 function isLoggedIn() {
-  return localStorage.getItem("currentUser") != null ? true : false;
+    return localStorage.getItem("currentUser") != null ? true : false;
 }
 
 function logOut() {
-  localStorage.removeItem("currentUser");
-  localStorage.clear();
+    localStorage.removeItem("currentUser");
+    localStorage.clear();
+
 
   axios
     .post("/logout")
@@ -39,11 +40,12 @@ function logOut() {
 }
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  let userLoggedIn = isLoggedIn();
+    let userLoggedIn = isLoggedIn();
 
-  console.log("userlogin", userLoggedIn);
+    console.log("userlogin", userLoggedIn);
+
 
   return (
     <div className={classes.root}>

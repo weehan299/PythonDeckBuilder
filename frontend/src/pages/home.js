@@ -16,21 +16,21 @@ export class Home extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get("/profile")
-      .then((res) => {
-        console.log(res.data);
-        var result = res.data["email"];
-        console.log(result);
-        this.setState({
-          email: result,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    componentDidMount() {
+        axios
+            .get("/profile")
+            .then(res => {
+                console.log(res.data);
+                var result = res.data["first_name"];
+                console.log(result);
+                this.setState({
+                    email: result
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
   render() {
     return (

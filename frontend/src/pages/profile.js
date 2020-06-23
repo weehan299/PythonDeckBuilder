@@ -17,7 +17,7 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import moment from "moment";
 
-//TODO: change the formatting of textboxes, put padding. 
+//TODO: change the formatting of textboxes, put padding.
 const styles = {
     button: {
         textTransform: "none"
@@ -86,7 +86,7 @@ export class Profile extends Component {
             .catch(err => console.err(err.data));
     };
 
-    //TODO: find a way such that not all button is disabled when one is pressed. 
+    //TODO: find a way such that not all button is disabled when one is pressed.
     render() {
         const { classes } = this.props;
         return (
