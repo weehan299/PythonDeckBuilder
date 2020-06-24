@@ -23,7 +23,7 @@ const styles = {
         border: 0,
         color: "black",
         height: 48,
-        padding: "10px"
+        padding: "10px 20px 0 0 "
     },
     button: {
         textTransform: "none",
@@ -107,7 +107,7 @@ export class CreateDeck extends Component {
                     className={classes.root}
                     direction="row"
                     justify="center"
-                    spacing={1}
+                    spacing={5}
                 >
                     <Grid item>
                         <form onSubmit={this.handleSubmit} noValidate>
@@ -176,8 +176,8 @@ export class CreateDeck extends Component {
                             <Grid item />
                             <Grid item>
                                 <Button
-                                    variant="outlined"
-                                    colour="default"
+                                    variant="contained"
+                                    colour="secondary"
                                     className={classes.button}
                                     href="#/help"
                                 >
