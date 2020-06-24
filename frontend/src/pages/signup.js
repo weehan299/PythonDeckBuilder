@@ -16,9 +16,11 @@ import axios from "axios";
 
 //logo
 import Logo from "../image/brain.png";
+import { FormHelperText } from "@material-ui/core";
 
 axios.default.baseURL =
-  "https://us-central1-ankideckbuilder.cloudfunctions.net/api";
+"http://127.0.0.1:5000/"
+  // "https://us-central1-ankideckbuilder.cloudfunctions.net/api";
 
 function OrbitalRemarks() {
   return (
@@ -129,7 +131,11 @@ class Signup extends Component {
                   autoFocus
                   onChange={this.handleChange}
                   value={this.state.firstName}
+                  error={errors.first_name
+                    ?  true : false}
+                  helperText = {errors.first_name}
                 />
+                
               </Grid>
               <Grid item sm={6}>
                 <TextField
@@ -141,6 +147,9 @@ class Signup extends Component {
                   label="Last Name"
                   onChange={this.handleChange}
                   value={this.state.lastName}
+                  error={errors.last_name
+                    ?  true : false}
+                  helperText = {errors.last_name}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -168,13 +177,14 @@ class Signup extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  error={errors.password ? true : false}
+                  error={errors.password||errors.general ? true : false}
                   helperText={
                     errors.password ? errors.password : errors.general
                   }
                   onChange={this.handleChange}
                   value={this.state.password}
                 />
+              
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -186,8 +196,8 @@ class Signup extends Component {
                   type="password"
                   id="confirmPassword"
                   autoComplete="current-password"
-                  error={errors.confirmPassword ? true : false}
-                  helperText={errors.confirmPassword}
+                  error={errors.confirm_password ? true : false}
+                  helperText={errors.confirm_password}
                   onChange={this.handleChange}
                   value={this.state.confirmPassword}
                 />
