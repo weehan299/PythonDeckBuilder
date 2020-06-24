@@ -23,10 +23,10 @@ const styles = {
         border: 0,
         color: "black",
         height: 48,
-        padding: "20px"
+        padding: "10px"
     },
     button: {
-        textTransform: "none"
+        textTransform: "none",
     },
     progress: {
         position: "absolute"
@@ -101,10 +101,16 @@ export class CreateDeck extends Component {
         const { classes } = this.props;
         const { errors } = this.state;
         return (
-            <Container maxWidth="sm" className={classes.root}>
-                <div>
-                    <form onSubmit={this.handleSubmit} noValidate>
-                        <Grid>
+            <React.Fragment>
+                <Grid
+                    container
+                    className={classes.root}
+                    direction="row"
+                    justify="center"
+                    spacing={1}
+                >
+                    <Grid item>
+                        <form onSubmit={this.handleSubmit} noValidate>
                             <TextField
                                 variant="outlined"
                                 required
@@ -136,46 +142,68 @@ export class CreateDeck extends Component {
                                 error={errors.deck_input ? true : false}
                                 helperText={errors.deck_input}
                             />
-                        </Grid>
-                        <Button
-                            className={classes.button}
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            disabled={this.state.loading}
-                        >
-                            {this.state.loading && (
-                                <CircularProgress
-                                    size={15}
-                                    className={classes.progress}
-                                />
+                            <Button
+                                className={classes.button}
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                disabled={this.state.loading}
+                            >
+                                {this.state.loading && (
+                                    <CircularProgress
+                                        size={15}
+                                        className={classes.progress}
+                                    />
+                                )}
+                                Create Deck
+                            </Button>
+                            {this.state.status === "Success" ? (
+                                <Typography> Deck Created Successfully</Typography>
+                            ) : (
+                                <Typography>
+                                    Enter Deck's Title and contents above
+                                </Typography>
                             )}
-                            Create Deck
-                        </Button>
-                        {this.state.status === "Success" ? (
-                            <Typography> Deck Created Successfully</Typography>
-                        ) : (
-                            <Typography>Enter Deck's Title and contents above</Typography>
-                        )}
-                    </form>
-                    <Dialog
-                        open={this.state.open && this.state.status === "Success"}
-                        onClose={this.handleDialogClose}
-                        aria-labelledby="alert-title"
-                        aria-describedby="alert-description"
-                    >
-                        <DialogContent>
-                            <DialogContentText id="alert-description" color="inherit">
-                                Deck successfully created
-                            </DialogContentText>
-                            <DialogActions>
-                                <Button href="#/profile">Go to Profile</Button>
-                                <Button onClick={this.handleDialogClose}>close</Button>
-                            </DialogActions>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-            </Container>
+                        </form>
+                    </Grid>
+                    <Grid item>
+                        <Grid container direction="column" spacing={5}>
+                            <Grid item />
+                            <Grid item />
+                            <Grid item />
+                            <Grid item />
+                            <Grid item />
+                            <Grid item />
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    colour="default"
+                                    className={classes.button}
+                                    href="#/help"
+                                >
+                                    Unsure of the format?
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Dialog
+                    open={this.state.open && this.state.status === "Success"}
+                    onClose={this.handleDialogClose}
+                    aria-labelledby="alert-title"
+                    aria-describedby="alert-description"
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-description" color="inherit">
+                            Deck successfully created
+                        </DialogContentText>
+                        <DialogActions>
+                            <Button href="#/profile">Go to Profile</Button>
+                            <Button onClick={this.handleDialogClose}>close</Button>
+                        </DialogActions>
+                    </DialogContent>
+                </Dialog>
+            </React.Fragment>
         );
     }
 }
