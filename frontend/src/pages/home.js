@@ -20,9 +20,9 @@ export class Home extends Component {
         axios
             .get("profile")
             .then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 var result = res.data["first_name"];
-                console.log(result);
+                //console.log(result);
                 this.setState({
                     email: result
                 });
@@ -52,7 +52,6 @@ export class Home extends Component {
           <Grid item />
           <Grid
             container
-            direction="horizontal"
             spacing={1}
             justify="center"
             alignItems="center"
@@ -90,7 +89,7 @@ export class Home extends Component {
           <Grid item />
           <Grid />
           <Grid item>
-            <Button color="contained" component={Link} to="/help">
+            <Button color="inherit" component={Link} to="/help">
               help
             </Button>
             <Button color="inherit" component={Link} to="/createdeck">

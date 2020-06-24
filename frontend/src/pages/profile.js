@@ -24,6 +24,10 @@ const styles = {
     },
     progress: {
         position: "absolute"
+    }, 
+    td: {
+        textAlign: "right",
+        verticalAlign: "bottom"
     }
 };
 export class Profile extends Component {
@@ -106,8 +110,8 @@ export class Profile extends Component {
                                 <TableCell scope="row" component="th">
                                     {deck.deck_name}
                                 </TableCell>
-                                <TableCell>
-                                    {moment(deck.created_at).format("dddd, DD MMMM")}
+                                <TableCell className={classes.td}>
+                                    {moment(deck.created_at).format("h:mm a dddd, DD MMMM")}
                                 </TableCell>
                                 <TableCell>
                                     <Button

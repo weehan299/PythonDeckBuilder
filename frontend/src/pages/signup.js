@@ -16,11 +16,6 @@ import axios from "axios";
 
 //logo
 import Logo from "../image/brain.png";
-import { FormHelperText } from "@material-ui/core";
-
-axios.default.baseURL =
-"http://127.0.0.1:5000/"
-  // "https://us-central1-ankideckbuilder.cloudfunctions.net/api";
 
 function OrbitalRemarks() {
   return (

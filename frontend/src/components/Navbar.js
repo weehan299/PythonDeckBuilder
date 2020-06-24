@@ -41,7 +41,7 @@ class Navbar extends Component {
         localStorage.removeItem("currentUser");
         localStorage.clear();
 
-        console.log("logging out");
+        //console.log("logging out");
         axios.get("/logout")
             .then(res => {
                 console.log("successful logout", res);

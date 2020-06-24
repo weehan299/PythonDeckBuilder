@@ -20,6 +20,28 @@ class UserAuthentication:
     def user_signup(self, first_name, last_name, email, password, confirm_password):
         """function to sign up user with fire base"""
         try:
+            if first_name == "":
+                response = jsonify(
+                    first_name="Please fill in your first name")
+                response.status_code = 400
+                return response
+            elif not first_name.isalpha():
+                response = jsonify(
+                    first_name="Only alphabets are allowed")
+                response.status_code = 400
+                return response
+
+            if last_name == "":
+                response = jsonify(
+                    last_name="Please fill in your last name")
+                response.status_code = 400
+                return response
+            elif not last_name.isalpha():
+                response = jsonify(
+                    last_name="Only alphabets are allowed")
+                response.status_code = 400
+                return response
+
             # validate password confirm password
             if password == confirm_password:
                 new_user = self.auth.create_user_with_email_and_password(
@@ -37,11 +59,13 @@ class UserAuthentication:
 
                 token = new_user.get('idToken')
                 return self.change_token_for_cookie(token)
-            else:
+            if password != confirm_password:
                 response = jsonify(
                     confirm_password="Please make sure your passwords match")
                 response.status_code = 400
                 return response
+            
+           
 
         except requests.exceptions.HTTPError as error:
             # these are pyrebase exceptions.
