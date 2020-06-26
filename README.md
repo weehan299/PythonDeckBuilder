@@ -24,11 +24,19 @@ For this version of our app, you have to **use an account** to access our servic
 1. Once you have signed-in, you can locate the ***create deck*** button on the top right. Click on the button.
 2. At the create deck page, you can first enter the **title** for your deck. This will also be the deck title when you import the deck to Anki.
 3. Deck content is where you enter the questions and answers for your flashcard. 
+   
    1. Always start with the first line being the question
    2. Then, start **a new line** with **a dash '-'** (without the quotation marks, just a -) and this will be interpreted as your answer to the question
    3. If you have multiple answers, repeat step 2
    4. To move on to the next question, start **a new line being the question** and continue from step 2
    5. Note that you need to follow the suggested format closely
+   
+   >![only one question](frontend/src/image/only1.png)
+   >sample input when there is only one question and answer
+
+   >![multiple questions](frontend/src/image/multipleQuestions.png)
+   >sample input when there are multiple questions and answers
+
 4. Click the ***Create Deck*** button at the bottom. Upon successful creation, a notification box will pop up and you can choose to go to your profile page or close the notification. 
 5. For this version, we can mainly support **text-input and simple numerical inputs** (eg. + , - , =). Images and other more complex math symbols will be supported in the future.
 6. It is recommended to create your questions and answers in **a local text editor** and then pasted into the *create deck* page for generation.
