@@ -9,9 +9,10 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    padding: "0 0 0 20px"
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
