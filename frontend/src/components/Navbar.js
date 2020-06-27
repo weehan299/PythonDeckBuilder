@@ -42,16 +42,18 @@ class Navbar extends Component {
         localStorage.clear();
 
         //console.log("logging out");
-        axios.get("/logout")
+        axios
+            .get("https://pythondeckbuilder.herokuapp.com/logout", {
+                withCredentials: true
+            })
             .then(res => {
                 console.log("successful logout", res);
-                window.location = '/';
+                window.location = "/";
                 this.setState({ userLoggedIn: false });
             })
             .catch(err => {
                 console.log("an err", err);
             });
-        
     };
 
     render() {
@@ -77,7 +79,7 @@ class Navbar extends Component {
                                 <Button color="inherit" component={Link} to="/createdeck">
                                     Create Deck
                                 </Button>
-                                <Button color="inherit" onClick={this.logOut} >
+                                <Button color="inherit" onClick={this.logOut}>
                                     Logout
                                 </Button>
                             </React.Fragment>

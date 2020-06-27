@@ -40,7 +40,7 @@ def create_deck():
     if request.method == 'POST':
         user_details = user_authentication.verify_and_decode_cookie()
 
-        print(user_details.get('email'))
+        #print(user_details.get('email'))
         if user_details is None:
             # if unable to verify cookie, go to login page.
             # need to redirect front end to login page not backend.
@@ -68,7 +68,7 @@ def create_deck():
 
         #  Deck class details added
         deck = Deck(deck_title, user_details.get('email'),
-                    datetime.datetime.now().isoformat())
+                    datetime.datetime.now(datetime.timezone.utc).isoformat())
 
         # upload files to storage
         bucket.blob(f"{deck.deck_id}.apkg").upload_from_filename(

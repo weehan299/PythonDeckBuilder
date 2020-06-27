@@ -17,218 +17,216 @@ import axios from "axios";
 //logo
 import Logo from "../image/brain.png";
 
+//axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
+
 function OrbitalRemarks() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"A "}
-      <Link color="inherit" href="https://orbital.comp.nus.edu.sg/">
-        NUS Orbital
-      </Link>{" "}
-      {2020}
-      {" Project"}
-    </Typography>
-  );
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {"A "}
+            <Link color="inherit" href="https://orbital.comp.nus.edu.sg/">
+                NUS Orbital
+            </Link>{" "}
+            {2020}
+            {" Project"}
+        </Typography>
+    );
 }
 
-const styles = (theme) => ({
-  paper: {
-    marginTop: theme.spacing(10),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+const styles = theme => ({
+    paper: {
+        marginTop: theme.spacing(10),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main
+    },
+    form: {
+        width: "100%", // Fix IE 11 issue.
+        marginTop: theme.spacing(3)
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2)
+    }
 });
 
 class Signup extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      errors: {},
+        this.state = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            errors: {}
+        };
+    }
+
+    handleChange = events => {
+        this.setState({
+            [events.target.name]: events.target.value
+        });
     };
-  }
 
-  handleChange = (events) => {
-    this.setState({
-      [events.target.name]: events.target.value,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const userInfo = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
+    handleSubmit = event => {
+        event.preventDefault();
+        const userInfo = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+            confirmPassword: this.state.confirmPassword
+        };
+        axios
+            .post("https://pythondeckbuilder.herokuapp.com/signup", userInfo, {
+                withCredentials: true
+            })
+            .then(res => {
+                localStorage.setItem("currentUser", JSON.stringify(res));
+                console.log("hello", res);
+                this.props.history.push("/");
+                window.location = "/";
+            })
+            .catch(err => {
+                this.setState(
+                    {
+                        errors: err.response.data
+                    },
+                    console.log(this.state.errors)
+                );
+            });
+        console.log("form submitted");
     };
-    axios
-      .post("/signup", userInfo)
-      .then((res) => {
-        localStorage.setItem('currentUser', JSON.stringify(res));
-        console.log("hello", res);
-        this.props.history.push("/");
-        window.location = '/';
-      })
-      .catch((err) => {
-        
-        this.setState(
-          {
-            errors: err.response.data,
-          },
-          console.log(this.state.errors)
+
+    render() {
+        const { classes } = this.props;
+        const { errors } = this.state;
+        return (
+            <Container component="main" maxWidth="xs">
+                <div className={classes.paper}>
+                    <img src={Logo} alt="brain logo" height="50" width="50" />
+                    <Typography component="h1" variant="h5">
+                        Sign up
+                    </Typography>
+                    <form
+                        className={classes.form}
+                        noValidate
+                        onSubmit={this.handleSubmit}
+                    >
+                        <Grid container spacing={2}>
+                            <Grid item sm={6}>
+                                <TextField
+                                    name="firstName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    label="First Name"
+                                    autoFocus
+                                    onChange={this.handleChange}
+                                    value={this.state.firstName}
+                                    error={errors.first_name ? true : false}
+                                    helperText={errors.first_name}
+                                />
+                            </Grid>
+                            <Grid item sm={6}>
+                                <TextField
+                                    name="lastName"
+                                    id="lastName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Last Name"
+                                    onChange={this.handleChange}
+                                    value={this.state.lastName}
+                                    error={errors.last_name ? true : false}
+                                    helperText={errors.last_name}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="email"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    autoComplete="email"
+                                    error={errors.email ? true : false}
+                                    helperText={errors.email}
+                                    onChange={this.handleChange}
+                                    value={this.state.email}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    error={
+                                        errors.password || errors.general ? true : false
+                                    }
+                                    helperText={
+                                        errors.password ? errors.password : errors.general
+                                    }
+                                    onChange={this.handleChange}
+                                    value={this.state.password}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Confirm password"
+                                    name="confirmPassword"
+                                    type="password"
+                                    id="confirmPassword"
+                                    autoComplete="current-password"
+                                    error={errors.confirm_password ? true : false}
+                                    helperText={errors.confirm_password}
+                                    onChange={this.handleChange}
+                                    value={this.state.confirmPassword}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign Up
+                        </Button>
+                        <Grid container justify="flex-end">
+                            <Grid item>
+                                <Link href="#/login" variant="body2">
+                                    Already have an account? Login
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </div>
+                <Box mt={5}>
+                    <OrbitalRemarks />
+                </Box>
+            </Container>
         );
-      });
-    console.log("form submitted");
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { errors } = this.state;
-    return (
-      <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <img src={Logo} alt="brain logo" height="50" width="50" />
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={this.handleSubmit}
-          >
-            <Grid container spacing={2}>
-              <Grid item sm={6}>
-                <TextField
-                  name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  onChange={this.handleChange}
-                  value={this.state.firstName}
-                  error={errors.first_name
-                    ?  true : false}
-                  helperText = {errors.first_name}
-                />
-                
-              </Grid>
-              <Grid item sm={6}>
-                <TextField
-                  name="lastName"
-                  id="lastName"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Last Name"
-                  onChange={this.handleChange}
-                  value={this.state.lastName}
-                  error={errors.last_name
-                    ?  true : false}
-                  helperText = {errors.last_name}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="email"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  autoComplete="email"
-                  error={errors.email ? true : false}
-                  helperText={errors.email}
-                  onChange={this.handleChange}
-                  value={this.state.email}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  error={errors.password||errors.general ? true : false}
-                  helperText={
-                    errors.password ? errors.password : errors.general
-                  }
-                  onChange={this.handleChange}
-                  value={this.state.password}
-                />
-              
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Confirm password"
-                  name="confirmPassword"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="current-password"
-                  error={errors.confirm_password ? true : false}
-                  helperText={errors.confirm_password}
-                  onChange={this.handleChange}
-                  value={this.state.confirmPassword}
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link
-                  href="#/login"
-                  variant="body2"
-                >
-                  Already have an account? Login
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={5}>
-          <OrbitalRemarks />
-        </Box>
-      </Container>
-    );
-  }
+    }
 }
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Signup);

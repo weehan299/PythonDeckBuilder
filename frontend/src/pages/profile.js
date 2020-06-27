@@ -15,7 +15,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
 
 import axios from "axios";
-import moment from "moment";
+//import moment from "moment";
+import * as moment from 'moment-timezone';
+
+axios.defaults.withCredentials = true;
 
 //TODO: change the formatting of textboxes, put padding.
 const styles = {
@@ -24,9 +27,9 @@ const styles = {
     },
     progress: {
         position: "absolute"
-    }, 
+    },
     td: {
-        textAlign: "right",
+        //textAlign: "right",
         verticalAlign: "bottom"
     }
 };
@@ -41,8 +44,9 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
+        console.log("new versionnnnn");
         axios
-            .get("/profile")
+            .get("https://pythondeckbuilder.herokuapp.com/profile")
             .then(res => {
                 var results = JSON.parse(res.data["profile"]);
                 var array = [];
@@ -63,7 +67,9 @@ export class Profile extends Component {
             downloadLoading: true
         });
         axios
-            .get(`/deck/${deck.deck_id}`)
+            .get(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
+                withCredentials: true
+            })
             .then(res => res.data.URL)
             .then(url => {
                 window.location = url;
@@ -79,7 +85,9 @@ export class Profile extends Component {
             deleteLoading: true
         });
         axios
-            .delete(`/deck/${deck.deck_id}`)
+            .delete(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
+                withCredentials: true
+            })
             .then(res => {
                 console.log(res.data);
                 window.location.reload(false);
@@ -111,7 +119,9 @@ export class Profile extends Component {
                                     {deck.deck_name}
                                 </TableCell>
                                 <TableCell className={classes.td}>
-                                    {moment(deck.created_at).format("h:mm a dddd, DD MMMM")}
+                                    {moment(deck.created_at)
+                                        .tz('Asia/Singapore')
+                                        .format("hh:mm a dddd, DD MMMM")}
                                 </TableCell>
                                 <TableCell>
                                     <Button

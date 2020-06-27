@@ -123,7 +123,7 @@ class UserAuthentication:
         response = jsonify(status="success", token=id_token)
         expires = datetime.now() + expires_in
         response.set_cookie(
-            'session', session_cookie, expires=expires  # httponly=True, secure=True
+            'session', session_cookie, expires=expires, secure=True, samesite=None  # httponly=True, secure=True
         )
         print(response)
         return response

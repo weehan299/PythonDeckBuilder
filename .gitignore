@@ -256,3 +256,6 @@ notes.txt
 #for coc settings
 .vim
 
+
+# Local Netlify folder
+.netlify

@@ -18,7 +18,7 @@ def login():
         email = request.json['email']
         password = request.json['password']
         return user_authentication.user_login(email, password)
-    return "Login page"
+    return jsonify(general="Something went wrong")
 
 
 @user_blueprint.route('/signup', methods=['POST'])
@@ -36,6 +36,7 @@ def signup():
 def session_logout():
     """user logout"""
     response = make_response(redirect('/login'))
+    response = jsonify(status="success", message="logout successful")
     response.set_cookie('session', expires=0)
     return response
 
@@ -47,7 +48,7 @@ def view_profile():
 
     if user_details is None:
         # if unable to verify cookie, go to login page.
-        return redirect('/login')
+        return jsonify("user not logged in")
 
     # get user's deck and order them by date created.
     # complex queries require indexing in firebase (which i already created)

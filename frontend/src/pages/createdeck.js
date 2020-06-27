@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -16,6 +16,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 
 import axios from "axios";
 
+//axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
+
 const styles = {
     root: {
         //margin: "10px",
@@ -26,7 +28,7 @@ const styles = {
         padding: "10px 20px 0 0 "
     },
     button: {
-        textTransform: "none",
+        textTransform: "none"
     },
     progress: {
         position: "absolute"
@@ -74,7 +76,9 @@ export class CreateDeck extends Component {
             input: this.state.input
         };
         axios
-            .post("/createdeck", deckInfo)
+            .post("https://pythondeckbuilder.herokuapp.com/createdeck", deckInfo, {
+                withCredentials: true
+            })
             .then(res => {
                 console.log(res.data.status);
                 this.setState({

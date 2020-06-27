@@ -14,7 +14,7 @@ import Logo from "../image/brain.png";
 //Axios for api call
 import axios from "axios";
 
-axios.default.baseURL = "http://127.0.0.1:5000/";
+//axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
 
 const styles = theme => ({
     paper: {
@@ -35,7 +35,6 @@ const styles = theme => ({
         margin: theme.spacing(3, 0, 2)
     }
 });
-
 
 class Login extends Component {
     constructor(props) {
@@ -58,21 +57,30 @@ class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const userInfo = {
+            /*
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            */
             email: this.state.email,
             password: this.state.password
         };
         //changed to hash routing i.e. #/login instead of /login
         axios
-            .post("/login", userInfo)
+            .post("https://pythondeckbuilder.herokuapp.com/login", userInfo, {
+                withCredentials: true
+            })
             .then(res => {
-                localStorage.setItem('currentUser', JSON.stringify(res));
+                console.log(res.headers);
+                localStorage.setItem("currentUser", JSON.stringify(res));
                 console.log(res.data);
                 this.props.history.push("/");
                 window.location = '/';
             })
             .catch(err => {
                 //console.error("hello",err.response)
-                
+
                 this.setState(
                     {
                         errors: err.response.data
