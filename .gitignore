@@ -259,3 +259,6 @@ notes.txt
 
 # Local Netlify folder
 .netlify
+
+frontend/.firebase/hosting.YnVpbGQ.cache
+frontend/.firebase

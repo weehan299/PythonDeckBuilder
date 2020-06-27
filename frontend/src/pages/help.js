@@ -26,6 +26,7 @@ export default function Help() {
 A full stack web application that automates the creation of Anki decks.
 
 ## Tech Stacks
+- database: Firebase
 - Backend: Python
 - Frontend: ReactJS
 
