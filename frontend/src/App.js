@@ -15,6 +15,7 @@ import Signup from "./pages/signup";
 import Home from "./pages/home";
 import CreateDeck from "./pages/createdeck";
 import Profile from "./pages/profile";
+import Help from "./pages/help";
 
 
 const theme = createMuiTheme({
@@ -46,6 +47,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/createdeck" component={CreateDeck} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/help" component={Help} />
           </Switch>
         </Router>
       </div>
