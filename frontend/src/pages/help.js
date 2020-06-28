@@ -9,10 +9,9 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: "0 0 0 20px"
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
@@ -27,12 +26,12 @@ export default function Help() {
 A full stack web application that automates the creation of Anki decks.
 
 ## Tech Stacks
-- database: Firebase
 - Backend: Python
 - Frontend: ReactJS
 
 ## How to use?
 For this version of our app, you have to **use an account** to access our service of creating and managing the decks. 
+Also, you will need to install Anki from their website.
 
 ### Sign up
 1. If you already have an account, please skip this session and go to the Log in section
@@ -64,7 +63,8 @@ For this version of our app, you have to **use an account** to access our servic
 ### Profile
 1. Once logged in, you can click the *profile* button on the top right to go to your profile page.
 2. In this page, you can download the decks you have created by clicking on the ***download*** button.
-3. You can also delete the decks created by clicking on the ***delete*** button. Do note the **action of deletion is irrevocable** so act with caution!
+3. To import into your Anki, simply click on the downloaded file or open with Anki and it will be automatically imported if your Anki has been installed successfully. 
+4. You can also delete the decks created by clicking on the ***delete*** button. Do note the **action of deletion is irrevocable** so act with caution!
 
 ### Log out
 1. You can click the ***log out*** button on the top right to log out of your account.
