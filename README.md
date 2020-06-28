@@ -7,7 +7,7 @@ A full stack web application that automates the creation of Anki decks.
 - Frontend: ReactJS
   
 ## How to use?
-For this version of our app, you have to **use an account** to access our service of creating and managing the decks. 
+For this version of our app, you have to **use an account** to access our service of creating and managing the decks. Also, you will need to install Anki from their website.
 
 ### Sign up
 1.  If you already have an account, please skip this session and go to [Log in](#log-in)
@@ -47,6 +47,7 @@ For this version of our app, you have to **use an account** to access our servic
 2. In this page, you can download the decks you have created by clicking on the ***download*** button.
 3. Simply **click on the .apkg file downloaded**. If you have installed Anki, the flashcards created will be automatically imported into your Anki.
 4. You can also delete the decks created by clicking on the ***delete*** button. Do note the **action of deletion is irrevocable** so act with caution!
+
 
 ### Log out
 1. You can click the ***log out*** button on the top right to log out of your account.
