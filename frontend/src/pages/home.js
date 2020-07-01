@@ -20,9 +20,12 @@ export class Home extends Component {
 
     componentDidMount() {
         axios
+            /*
             .get("https://pythondeckbuilder.herokuapp.com/profile", {
                 withCredentials: true
             })
+            */
+            .get("/profile")
             .then(res => {
                 console.log(res.data);
                 var result = res.data["first_name"];

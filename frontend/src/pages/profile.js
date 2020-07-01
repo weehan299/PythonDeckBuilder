@@ -16,7 +16,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import axios from "axios";
 //import moment from "moment";
-import * as moment from 'moment-timezone';
+import * as moment from "moment-timezone";
 
 axios.defaults.withCredentials = true;
 
@@ -46,7 +46,10 @@ export class Profile extends Component {
     componentDidMount() {
         console.log("new versionnnnn");
         axios
+            /*
             .get("https://pythondeckbuilder.herokuapp.com/profile")
+            */
+            .get("/profile")
             .then(res => {
                 var results = JSON.parse(res.data["profile"]);
                 var array = [];
@@ -67,9 +70,12 @@ export class Profile extends Component {
             downloadLoading: true
         });
         axios
+            /*
             .get(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
                 withCredentials: true
             })
+            */
+            .get(`/deck/${deck.deck_id}`)
             .then(res => res.data.URL)
             .then(url => {
                 window.location = url;
@@ -85,9 +91,12 @@ export class Profile extends Component {
             deleteLoading: true
         });
         axios
+            /*
             .delete(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
                 withCredentials: true
             })
+            */
+            .delete(`/deck/${deck.deck_id}`)
             .then(res => {
                 console.log(res.data);
                 window.location.reload(false);
@@ -120,7 +129,7 @@ export class Profile extends Component {
                                 </TableCell>
                                 <TableCell className={classes.td}>
                                     {moment(deck.created_at)
-                                        .tz('Asia/Singapore')
+                                        .tz("Asia/Singapore")
                                         .format("hh:mm a dddd, DD MMMM")}
                                 </TableCell>
                                 <TableCell>

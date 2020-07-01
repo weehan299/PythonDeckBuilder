@@ -122,8 +122,9 @@ class UserAuthentication:
         # maybe can change status success for something else.
         response = jsonify(status="success", token=id_token)
         expires = datetime.now() + expires_in
+        #uncomment secure = True and samesite=None when hosting
         response.set_cookie(
-            'session', session_cookie, expires=expires, secure=True, samesite=None  # httponly=True, secure=True
+            'session', session_cookie, expires=expires, #secure=True, samesite=None  # httponly=True, secure=True
         )
         print(response)
         return response

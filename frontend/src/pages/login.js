@@ -68,15 +68,18 @@ class Login extends Component {
         };
         //changed to hash routing i.e. #/login instead of /login
         axios
+            /*
             .post("https://pythondeckbuilder.herokuapp.com/login", userInfo, {
                 withCredentials: true
             })
+            */
+            .post("/login", userInfo)
             .then(res => {
                 console.log(res.headers);
                 localStorage.setItem("currentUser", JSON.stringify(res));
                 console.log(res.data);
                 this.props.history.push("/");
-                window.location = '/';
+                window.location = "/";
             })
             .catch(err => {
                 //console.error("hello",err.response)

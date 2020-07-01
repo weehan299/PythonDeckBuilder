@@ -40,6 +40,7 @@ def create_deck():
     if request.method == 'POST':
         user_details = user_authentication.verify_and_decode_cookie()
 
+        print(user_details)
         #print(user_details.get('email'))
         if user_details is None:
             # if unable to verify cookie, go to login page.

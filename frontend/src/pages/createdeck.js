@@ -13,7 +13,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-
+//rich text editor
+import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 
 //axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
@@ -66,6 +67,15 @@ export class CreateDeck extends Component {
         );
     };
 
+    handleEditorChange = (content, editor) => {
+        this.setState(
+            {
+                input: content
+            },
+            console.log(this.state.input)
+        );
+    };
+
     handleSubmit = event => {
         this.setState({
             loading: true
@@ -75,10 +85,14 @@ export class CreateDeck extends Component {
             title: this.state.title,
             input: this.state.input
         };
+        // remember to add withCredentials: true
         axios
+            /*
             .post("https://pythondeckbuilder.herokuapp.com/createdeck", deckInfo, {
                 withCredentials: true
             })
+            */
+            .post("/createdeck", deckInfo)
             .then(res => {
                 console.log(res.data.status);
                 this.setState({
@@ -129,6 +143,7 @@ export class CreateDeck extends Component {
                                 error={errors.deck_title ? true : false}
                                 helperText={errors.deck_title}
                             />
+                            {/*
                             <TextField
                                 className={classes.deckInput}
                                 variant="outlined"
@@ -146,6 +161,24 @@ export class CreateDeck extends Component {
                                 error={errors.deck_input ? true : false}
                                 helperText={errors.deck_input}
                             />
+                            */}
+
+                            <Editor
+                                apiKey='ylsa1rebk4639viotcnscrk0okc0mzu0emsmne7evqda6kxx'
+                                initialValue=""
+                                init={{
+                                    height: 500,
+                                    menubar: false,
+                                    plugins: [
+                                        "advlist autolink lists link image charmap print preview anchor",
+                                        "searchreplace visualblocks code fullscreen",
+                                        "insertdatetime media table paste code help wordcount"
+                                    ],
+                                    toolbar:
+                                        "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
+                                }}
+                                onEditorChange={this.handleEditorChange}
+                            />
                             <Button
                                 className={classes.button}
                                 type="submit"
@@ -161,10 +194,13 @@ export class CreateDeck extends Component {
                                 )}
                                 Create Deck
                             </Button>
-                            {this.state.status === "Success" ? (
-                                <Typography> Deck Created Successfully</Typography>
+                            {errors.deck_input === "Deck input must not empty" ? (
+                                <Typography color='secondary'>
+                                    Deck input must not be empty
+                                </Typography>
+
                             ) : (
-                                <Typography>
+                                <Typography >
                                     Enter Deck's Title and contents above
                                 </Typography>
                             )}
