@@ -25,22 +25,14 @@ class UserAuthentication:
                     first_name="Please fill in your first name")
                 response.status_code = 400
                 return response
-            elif not first_name.isalpha():
-                response = jsonify(
-                    first_name="Only alphabets are allowed")
-                response.status_code = 400
-                return response
+          
 
             if last_name == "":
                 response = jsonify(
                     last_name="Please fill in your last name")
                 response.status_code = 400
                 return response
-            elif not last_name.isalpha():
-                response = jsonify(
-                    last_name="Only alphabets are allowed")
-                response.status_code = 400
-                return response
+           
 
             # validate password confirm password
             if password == confirm_password:
