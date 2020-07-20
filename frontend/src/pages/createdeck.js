@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
+import { AppBar, Divider, Toolbar, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -13,9 +13,20 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+// for pop up with preview and styler
+import Slide from '@material-ui/core/Slide';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+// preview images
+import DefaultImg from "../image/defaultPreview.png";
+import Style1Img from "../image/style1Preview.png";
+import Style2Img from "../image/style2Preview.png";
+
 //rich text editor
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
+
+
 
 //axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
 
@@ -39,6 +50,25 @@ const styles = {
     }
 };
 
+// exploring transition effect for material UI 
+// the diaglog for preview and styler moves up from bottom when opened
+const stylerTransition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+const cardStyle = {
+    default: ".card \
+    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
+    black;\n background-color: white;\n}\ ",
+    style1:".card \
+    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
+    red;\n background-color: white;\n}\ ",
+    style2:".card \
+    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
+    blue;\n background-color: white;\n}\ "
+}
+
+
 export class CreateDeck extends Component {
     constructor(props) {
         super(props);
@@ -46,10 +76,16 @@ export class CreateDeck extends Component {
             title: "",
             input: "",
             status: "",
+            css: ".card \
+            {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
+            black;\n background-color: white;\n}\ ",
+            previewImg: DefaultImg,
             errors: {},
             loading: false,
-            open: false
+            open: false,
+            stylerOpen: false
         };
+        this.handleStyleChange = this.handleStyleChange.bind(this);
     }
 
     handleDialogClose = () => {
@@ -76,6 +112,50 @@ export class CreateDeck extends Component {
         );
     };
 
+    // figure out a smart way of changing the css and picture?
+    handleStyleChange = selection => {
+        if (selection === "default") {
+            this.setState(
+                { 
+                    css: cardStyle.default,
+                    previewImg: DefaultImg
+                }
+            ) 
+        } else if (selection === "style1") {
+            this.setState(
+                { 
+                    css: cardStyle.style1,
+                    previewImg: Style1Img
+                }
+            ) 
+        } else if (selection === "style2") {
+            this.setState(
+                { 
+                    css: cardStyle.style2,
+                    previewImg: Style2Img
+                }
+            )
+        }
+        console.log("current css", this.state.css)
+        
+    }
+
+    //open and closing pop up for styler
+    handleOpenStyler = () => {
+        this.setState(
+            {
+                stylerOpen: true
+            }
+        )
+    }
+    handleCloseStyler = () => {
+        this.setState(
+            {
+                stylerOpen: false
+            }
+        )
+    }
+
     handleSubmit = event => {
         this.setState({
             loading: true
@@ -83,7 +163,8 @@ export class CreateDeck extends Component {
         event.preventDefault();
         const deckInfo = {
             title: this.state.title,
-            input: this.state.input
+            input: this.state.input,
+            css: this.state.css
         };
         // remember to add withCredentials: true
         axios
@@ -120,6 +201,7 @@ export class CreateDeck extends Component {
         const { errors } = this.state;
         return (
             <React.Fragment>
+            {/* Section for user input */}
                 <Grid
                     container
                     className={classes.root}
@@ -198,7 +280,6 @@ export class CreateDeck extends Component {
                                 <Typography color='secondary'>
                                     Deck input must not be empty
                                 </Typography>
-
                             ) : (
                                 <Typography >
                                     Enter Deck's Title and contents above
@@ -206,6 +287,7 @@ export class CreateDeck extends Component {
                             )}
                         </form>
                     </Grid>
+                    {/* The helper button */}
                     <Grid item>
                         <Grid container direction="column" spacing={5}>
                             <Grid item />
@@ -223,10 +305,87 @@ export class CreateDeck extends Component {
                                 >
                                     Unsure of the format?
                                 </Button>
+                                <Button
+                                    variant="contained"
+                                    colour="secondary"
+                                    className={classes.button}
+                                    onClick = {this.handleOpenStyler}
+                                >
+                                    Preview and Styler
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
+
+                {/* The preview and styler section */}
+                    
+                <Dialog
+                    open={this.state.stylerOpen}
+                    onClose={this.handleCloseStyler}
+                    aria-describedby="preview and styler window"
+                >   
+                    <DialogTitle>
+                        Preview and Styler
+                    </DialogTitle>
+                    <Toolbar>
+                        <Button
+                            variant="contained"
+                            colour="secondary"
+                            className={classes.button}
+                            onClick = {() => this.handleStyleChange('default')}
+                        >
+                            Default
+                        </Button>
+                        <Button
+                            variant="contained"
+                            colour="secondary"
+                            className={classes.button}
+                            onClick = {() => this.handleStyleChange('style1')}
+                        >
+                            Style1
+                        </Button>
+                        <Button
+                            variant="contained"
+                            colour="primary"
+                            className={classes.button}
+                            onClick = {() => this.handleStyleChange('style2')}
+                        >
+                            Style2
+                        </Button>
+                    </Toolbar>
+                    <div>
+                            <img
+                                src = {this.state.previewImg}
+                                alt = "preview images"
+                                height="300"
+                                width="400"
+                            />
+                    </div>  
+                    <DialogActions>
+                        <Button edge="start" color="inherit" onClick={this.handleCloseStyler} aria-label="close">
+                                Save and Close
+                        </Button>
+
+                    </DialogActions>
+                </Dialog>
+                
+                {/* full screen version of pop up? */}
+                {/* <AppBar >
+                        <Toolbar>
+                            <Button edge="start" color="inherit" onClick={this.handleCloseStyler} aria-label="close">
+                                Close
+                            </Button>
+                            <Typography variant="h6" >
+                                Preview and Styler
+                            </Typography>
+                            <Button autoFocus color="inherit" onClick={this.handleCloseStyler} aria-label="save and close">
+                                Save
+                            </Button>
+                        </Toolbar>
+                    </AppBar> */}
+
+                {/* The diaglog pop up after creating deck */}
                 <Dialog
                     open={this.state.open && this.state.status === "Success"}
                     onClose={this.handleDialogClose}
