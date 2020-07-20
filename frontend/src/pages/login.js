@@ -76,7 +76,7 @@ class Login extends Component {
             .post("/login", userInfo)
             .then(res => {
                 console.log(res.headers);
-                localStorage.setItem("currentUser", JSON.stringify(res));
+                localStorage.setItem("authenticated", "true");
                 console.log(res.data);
                 this.props.history.push("/");
                 window.location = "/";
