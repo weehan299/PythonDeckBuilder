@@ -40,7 +40,6 @@ def create_deck():
     if request.method == 'POST':
         user_details = user_authentication.verify_and_decode_cookie()
 
-        print(user_details)
         #print(user_details.get('email'))
         if user_details is None:
             # if unable to verify cookie, go to login page.
@@ -53,7 +52,11 @@ def create_deck():
         # Get user info from form
         deck_input = request.json['input']
         deck_title = request.json['title']
+        # Get style chosen by the user
+        deck_css = request.json['css']
 
+        # ensure all inputs are non-empty
+        # deck css will have a default setting so no need to check.
         if deck_title.strip() == "":
             response = jsonify(deck_title="Deck title must not empty")
             response.status_code = 400
@@ -64,8 +67,9 @@ def create_deck():
             response.status_code = 400
             print(response.data)
             return response
+        
 
-        create_anki_deck_with_string_input(deck_title, deck_input)
+        create_anki_deck_with_string_input(deck_title, deck_input, deck_css)
 
         #  Deck class details added
         deck = Deck(deck_title, user_details.get('email'),
