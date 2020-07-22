@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppBar, Divider, Toolbar, Typography } from "@material-ui/core";
+import { Toolbar, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -52,20 +52,25 @@ const styles = {
 
 // exploring transition effect for material UI 
 // the diaglog for preview and styler moves up from bottom when opened
-const stylerTransition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+// const stylerTransition = React.forwardRef(function Transition(props, ref) {
+//     return <Slide direction="up" ref={ref} {...props} />;
+//   });
 
+// style2 is adapted from Shamim Ahmed, https://medshamim.com/med/how-to-design-beautiful-anki-cards
 const cardStyle = {
     default: ".card \
-    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
+    {\n font-family: arial; \n font-size: 20px;\n text-align: center;\n color: \
     black;\n background-color: white;\n}\ ",
     style1:".card \
-    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
-    red;\n background-color: white;\n}\ ",
+    {\n font-family: cursive;\n font-size: 20px;\n text-align: center;\n color: \
+    #eee8d5;\n background-color: #333B45;\n} \ ",
     style2:".card \
-    {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
-    blue;\n background-color: white;\n}\ "
+    {\n font-family: Menlo, baskerville, sans;\n font-size: 20px;\n text-align: center;\n color: \
+    #D7DEE9;\n background-color: #333B45;\n} \  \n b  { color: #C695C6 !important; } \
+    \n strong {color: #C695C6 !important;} \
+    \n u { text-decoration: none; color: #5EB3B3;} \
+    \n span { text-decoration: none; color: #5EB3B3;} \
+    \n i  {\n color: IndianRed; \n} \ \n EM  {\n color: IndianRed; \n} \ "
 }
 
 
@@ -76,9 +81,7 @@ export class CreateDeck extends Component {
             title: "",
             input: "",
             status: "",
-            css: ".card \
-            {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: \
-            black;\n background-color: white;\n}\ ",
+            css: cardStyle.default,
             previewImg: DefaultImg,
             errors: {},
             loading: false,
@@ -244,7 +247,7 @@ export class CreateDeck extends Component {
                                 helperText={errors.deck_input}
                             />
                             */}
-
+                            {/* numlist is removed as it is not compatible */}
                             <Editor
                                 apiKey='ylsa1rebk4639viotcnscrk0okc0mzu0emsmne7evqda6kxx'
                                 initialValue=""
@@ -257,25 +260,44 @@ export class CreateDeck extends Component {
                                         "insertdatetime media table paste code help wordcount"
                                     ],
                                     toolbar:
-                                        "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
+                                        "undo redo | formatselect | bold italic underline backcolor | alignleft aligncenter alignright alignjustify | bullist outdent indent | removeformat | help"
                                 }}
                                 onEditorChange={this.handleEditorChange}
                             />
-                            <Button
-                                className={classes.button}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                disabled={this.state.loading}
-                            >
-                                {this.state.loading && (
-                                    <CircularProgress
-                                        size={15}
-                                        className={classes.progress}
-                                    />
-                                )}
-                                Create Deck
-                            </Button>
+                            <Grid 
+                                container
+                                direction="row"
+                                spacing = {1}
+                            >  
+                                <Grid item> 
+                                    <Button
+                                        className={classes.button}
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        disabled={this.state.loading}
+                                    >
+                                        {this.state.loading && (
+                                            <CircularProgress
+                                                size={15}
+                                                className={classes.progress}
+                                            />
+                                        )}
+                                        Create Deck
+                                    </Button>
+                                </Grid>
+
+                                <Grid item> 
+                                    <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.button}
+                                            onClick = {this.handleOpenStyler}
+                                        >
+                                            Preview and Styler
+                                    </Button>
+                                </Grid>
+                            </Grid>
                             {errors.deck_input === "Deck input must not empty" ? (
                                 <Typography color='secondary'>
                                     Deck input must not be empty
@@ -296,24 +318,17 @@ export class CreateDeck extends Component {
                             <Grid item />
                             <Grid item />
                             <Grid item />
-                            <Grid item>
+                            
                                 <Button
-                                    variant="contained"
-                                    colour="secondary"
+                                    variant="outlined"
+                                    color="primary"
                                     className={classes.button}
                                     href="#/help"
                                 >
                                     Unsure of the format?
                                 </Button>
-                                <Button
-                                    variant="contained"
-                                    colour="secondary"
-                                    className={classes.button}
-                                    onClick = {this.handleOpenStyler}
-                                >
-                                    Preview and Styler
-                                </Button>
-                            </Grid>
+                                
+                            
                         </Grid>
                     </Grid>
                 </Grid>
@@ -330,40 +345,40 @@ export class CreateDeck extends Component {
                     </DialogTitle>
                     <Toolbar>
                         <Button
-                            variant="contained"
-                            colour="secondary"
+                            variant="outline"
+                            color="primary"
                             className={classes.button}
                             onClick = {() => this.handleStyleChange('default')}
                         >
                             Default
                         </Button>
                         <Button
-                            variant="contained"
-                            colour="secondary"
+                            variant="outline"
+                            color="primary"
                             className={classes.button}
                             onClick = {() => this.handleStyleChange('style1')}
                         >
-                            Style1
+                            Dark Mode
                         </Button>
                         <Button
-                            variant="contained"
-                            colour="primary"
+                            variant="outline"
+                            color="primary"
                             className={classes.button}
                             onClick = {() => this.handleStyleChange('style2')}
                         >
-                            Style2
+                            Dark Mode with Colour Palette
                         </Button>
                     </Toolbar>
                     <div>
                             <img
                                 src = {this.state.previewImg}
                                 alt = "preview images"
-                                height="300"
-                                width="400"
+                                Height="300"
+                                Width="500"
                             />
                     </div>  
                     <DialogActions>
-                        <Button edge="start" color="inherit" onClick={this.handleCloseStyler} aria-label="close">
+                        <Button edge="start" variant="outline" color="primary" onClick={this.handleCloseStyler} aria-label="close">
                                 Save and Close
                         </Button>
 
