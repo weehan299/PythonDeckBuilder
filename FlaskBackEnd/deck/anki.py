@@ -40,10 +40,12 @@ def create_model(str_css):
         'Simple Model',
         fields=[
             {'name': 'Question'},
-            {'name': 'Answer'},
+            {'name': 'Answer'}
+            # {'name': 'MyMedia'},
         ],
         templates=[
-            {
+            {   
+                # <br>{{MyMedia}}
                 'name': 'Card 1',
                 'qfmt': '{{Question}}',
                 'afmt': '{{FrontSide}}<hr id="answer">{{Answer}}',
@@ -55,7 +57,9 @@ def create_model(str_css):
 def create_anki_deck_with_string_input(str_title, str_input, str_css):
     """ creating deck with string input"""
     dictionary = parse_string_input(str_input)
-
+    media_files = dictionary['allAnkiImages']
+    print("producing anki decks", media_files)
+    del dictionary['allAnkiImages']
     my_deck = genanki.Deck(
         random.randrange(1 << 30, 1 << 31),
         f'{str_title}')
@@ -72,7 +76,11 @@ def create_anki_deck_with_string_input(str_title, str_input, str_css):
                 fields=[key, answer_string]
             )
         )
-    genanki.Package(my_deck).write_to_file(f'{str_title}.apkg')
+    my_package = genanki.Package(my_deck)
+    
+    if media_files:
+        my_package.media_files = dictionary['allAnkiImages']
+    my_package.write_to_file(f'{str_title}.apkg')
 
 
 def create_anki_deck_with_file(filename, str_css):

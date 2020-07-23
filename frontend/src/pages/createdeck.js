@@ -199,6 +199,33 @@ export class CreateDeck extends Component {
         console.log("form submitted");
     };
 
+    // <input id="inputFileToLoad" type="file" onchange={() => this.encodeImageFileAsURL} />
+    // <div id="imgTest"></div>
+
+    // encodeImageFileAsURL = () => {
+
+    //     var filesSelected = document.getElementById("inputFileToLoad").files;
+    //     if (filesSelected.length > 0) {
+    //     var fileToLoad = filesSelected[0];
+
+    //     var fileReader = new FileReader();
+    //     console.log("excuteded ")
+    //     fileReader.onload = function(fileLoadedEvent) {
+    //         var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+    //         var newImage = document.createElement('img');
+    //         newImage.src = srcData;
+
+    //         document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+    //         alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+    //         console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
+    //     }
+    //     fileReader.readAsDataURL(fileToLoad);
+    //     }
+    // }
+    
+    // window.addEventListener('paste', ... or
+   
     render() {
         const { classes } = this.props;
         const { errors } = this.state;
@@ -212,6 +239,7 @@ export class CreateDeck extends Component {
                     justify="center"
                     spacing={5}
                 >
+                
                     <Grid item>
                         <form onSubmit={this.handleSubmit} noValidate>
                             <TextField
@@ -252,15 +280,16 @@ export class CreateDeck extends Component {
                                 apiKey='ylsa1rebk4639viotcnscrk0okc0mzu0emsmne7evqda6kxx'
                                 initialValue=""
                                 init={{
-                                    height: 500,
+                                    min_height: 400,
                                     menubar: false,
                                     plugins: [
-                                        "advlist autolink lists link image charmap print preview anchor",
+                                        "autoresize, advlist autolink lists link image charmap print preview anchor",
                                         "searchreplace visualblocks code fullscreen",
                                         "insertdatetime media table paste code help wordcount"
                                     ],
+                                    paste_data_images: true,
                                     toolbar:
-                                        "undo redo | formatselect | bold italic underline backcolor | alignleft aligncenter alignright alignjustify | bullist outdent indent | removeformat | help"
+                                        "undo redo | formatselect | bold italic underline backcolor | image | alignleft aligncenter alignright alignjustify | bullist outdent indent | removeformat | help"
                                 }}
                                 onEditorChange={this.handleEditorChange}
                             />
@@ -418,6 +447,8 @@ export class CreateDeck extends Component {
                     </DialogContent>
                 </Dialog>
             </React.Fragment>
+
+           
         );
     }
 }
