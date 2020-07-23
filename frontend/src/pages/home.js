@@ -9,6 +9,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 //axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com/";
+import logout from '../components/Logout'
 
 export class Home extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ export class Home extends Component {
             */
             .get("/profile")
             .then(res => {
+                console.log(res)
                 console.log(res.data);
                 var result = res.data["first_name"];
                 //console.log(result);
@@ -36,6 +38,10 @@ export class Home extends Component {
             })
             .catch(error => {
                 console.log(error);
+                
+                if (error.response.data.error === "invalid cookie") {
+                    logout()
+                }
             });
     }
 

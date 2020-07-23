@@ -30,7 +30,7 @@ class Navbar extends Component {
     }
 
     isLoggedIn = () => {
-        if (localStorage.getItem("currentUser") != null) {
+        if (localStorage.getItem("authenticated") != null) {
             this.setState({ userLoggedIn: true });
         } else {
             this.setState({ userLoggedIn: false });
@@ -38,7 +38,7 @@ class Navbar extends Component {
     };
 
     logOut = () => {
-        localStorage.removeItem("currentUser");
+        localStorage.removeItem("authenticated");
         localStorage.clear();
 
         //console.log("logging out");

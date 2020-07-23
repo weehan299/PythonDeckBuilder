@@ -18,6 +18,8 @@ import axios from "axios";
 //import moment from "moment";
 import * as moment from "moment-timezone";
 
+import logout from '../components/Logout'
+
 axios.defaults.withCredentials = true;
 
 //TODO: change the formatting of textboxes, put padding.
@@ -60,6 +62,11 @@ export class Profile extends Component {
             })
             .catch(error => {
                 console.log(error.response);
+                
+                if (error.response.data.error === "invalid cookie") {
+                    logout()
+                    
+                }
             });
     }
 
@@ -104,7 +111,10 @@ export class Profile extends Component {
                     deleteLoading: false
                 });
             })
-            .catch(err => console.err(err.data));
+            .catch(err => {
+                console.err(err.data);
+                
+            });
     };
 
     //TODO: find a way such that not all button is disabled when one is pressed.
