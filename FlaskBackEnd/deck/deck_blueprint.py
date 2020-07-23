@@ -41,7 +41,7 @@ def create_deck():
         user_details = user_authentication.verify_and_decode_cookie()
 
         #print(user_details.get('email'))
-        if user_details is None:
+        if user_details == None or user_details == "invalid cookie":
             # if unable to verify cookie, go to login page.
             # need to redirect front end to login page not backend.
             response = jsonify(
