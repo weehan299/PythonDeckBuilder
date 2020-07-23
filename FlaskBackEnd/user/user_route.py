@@ -45,11 +45,17 @@ def session_logout():
 def view_profile():
     """get user profile"""
     user_details = user_authentication.verify_and_decode_cookie()
-
+    print('view profiles', user_details)
     if user_details is None:
         # if unable to verify cookie, go to login page.
-        return jsonify("user not logged in")
-
+        response = jsonify("user not logged in")
+        response.status_code = 400
+        return response
+    elif user_details == 'invalid cookie':
+        session_logout()
+        response = jsonify(error="invalid cookie")
+        response.status_code = 500
+        return response
     # get user's deck and order them by date created.
     # complex queries require indexing in firebase (which i already created)
 

@@ -252,10 +252,10 @@ export class CreateDeck extends Component {
                                 apiKey='ylsa1rebk4639viotcnscrk0okc0mzu0emsmne7evqda6kxx'
                                 initialValue=""
                                 init={{
-                                    height: 500,
+                                    min_height: 400,
                                     menubar: false,
                                     plugins: [
-                                        "advlist autolink lists link image charmap print preview anchor",
+                                        "autoresize advlist autolink lists link image charmap print preview anchor",
                                         "searchreplace visualblocks code fullscreen",
                                         "insertdatetime media table paste code help wordcount"
                                     ],
