@@ -23,9 +23,11 @@ import Style2Img from "../image/style2Preview.png";
 
 //rich text editor
 import { Editor } from "@tinymce/tinymce-react";
+
+//axios for linking front and back end
 import axios from "axios";
-
-
+//log out if cookie expired
+import logout from '../components/Logout'
 
 //axios.defaults.baseURL = "https://pythondeckbuilder.herokuapp.com";
 
@@ -188,6 +190,8 @@ export class CreateDeck extends Component {
                 console.log(error.response.data.error);
                 if (error.response.data.error === "User not authenticated") {
                     window.location = "#/login";
+                } else if (error.response.data.error === "invalid cookie") {
+                    logout()
                 } else {
                     this.setState({
                         loading: false,
@@ -259,7 +263,7 @@ export class CreateDeck extends Component {
                                         "insertdatetime media table paste code help wordcount"
                                     ],
                                     toolbar:
-                                        "undo redo | formatselect | bold italic underline backcolor | alignleft aligncenter alignright alignjustify | bullist outdent indent | removeformat | help"
+                                        "undo redo | formatselect | bold italic underline backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
                                 }}
                                 onEditorChange={this.handleEditorChange}
                             />
