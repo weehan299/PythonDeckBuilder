@@ -34,8 +34,14 @@ Currently, **an account** is required to access our service of creating and mana
    >![only one question](frontend/src/image/only1.png)
    >sample input when there is only one question and answer
 
-   >![multiple questions](frontend/src/image/multipleQuestions.png)
+   >![multiple questions](frontend/src/image/multiple.png)
    >sample input when there are multiple questions and answers
+
+   >![sample input with styling](frontend/src/image/sample3.png)
+   >sample input with styling
+
+   >![multiple questions](frontend/src/image/product3.png)
+   >preview of anki card produced from example 3 with style selected as 'dark mode with colour palette' 
 
 4. (***NEW*** Optional) Select your deck style by clicking on the ***preview and styler*** button. 
 5. Click the ***Create Deck*** button at the bottom. Upon successful creation, a notification box will pop up and you can choose to go to your profile page or close the notification.
