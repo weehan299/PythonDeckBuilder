@@ -50,8 +50,8 @@ def view_profile():
         # if unable to verify cookie, go to login page.
         response = jsonify("user not logged in")
         return response
+    # if cookie is invalid eg expired, return an error to trigger the log out from frontend
     elif user_details == 'invalid cookie':
-        session_logout()
         response = jsonify(error="invalid cookie")
         response.status_code = 500
         return response

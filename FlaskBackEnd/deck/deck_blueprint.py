@@ -39,13 +39,19 @@ def create_deck():
     """create deck api"""
     if request.method == 'POST':
         user_details = user_authentication.verify_and_decode_cookie()
-
+        
         #print(user_details.get('email'))
-        if user_details == None or user_details == "invalid cookie":
+        if user_details == None:
             # if unable to verify cookie, go to login page.
             # need to redirect front end to login page not backend.
             response = jsonify(
                 error="User not authenticated")
+            response.status_code = 500
+            return response
+        #if user's cookie is invalid, log the user out and prompt for log in
+        elif user_details == "invalid cookie":
+            response = jsonify(
+                error="invalid cookie")
             response.status_code = 500
             return response
 
