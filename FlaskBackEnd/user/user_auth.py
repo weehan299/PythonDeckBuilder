@@ -20,6 +20,7 @@ class UserAuthentication:
     def user_signup(self, first_name, last_name, email, password, confirm_password):
         """function to sign up user with fire base"""
         try:
+            # validators for first and last name, cannot be empty
             if first_name == "":
                 response = jsonify(
                     first_name="Please fill in your first name")
