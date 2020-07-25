@@ -81,12 +81,12 @@ export class Profile extends Component {
             downloadLoading: true
         });
         axios
-            /*
+            
             .get(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
                 withCredentials: true
             })
-            */
-            .get(`/deck/${deck.deck_id}`)
+            
+            // .get(`/deck/${deck.deck_id}`)
             .then(res => res.data.URL)
             .then(url => {
                 window.location = url;
@@ -102,12 +102,12 @@ export class Profile extends Component {
             deleteLoading: true
         });
         axios
-            /*
+            
             .delete(`https://pythondeckbuilder.herokuapp.com/deck/${deck.deck_id}`, {
                 withCredentials: true
             })
-            */
-            .delete(`/deck/${deck.deck_id}`)
+            
+            // .delete(`/deck/${deck.deck_id}`)
             .then(res => {
                 console.log(res.data);
                 window.location.reload(false);
