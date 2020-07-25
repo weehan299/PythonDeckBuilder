@@ -43,12 +43,11 @@ class Navbar extends Component {
 
         //console.log("logging out");
         axios
-			/*
+            // .get("/logout")
+        
             .get("https://pythondeckbuilder.herokuapp.com/logout", {
                 withCredentials: true
             })
-			*/
-			.get("/logout")
             .then(res => {
                 console.log("successful logout", res);
                 window.location = "/";

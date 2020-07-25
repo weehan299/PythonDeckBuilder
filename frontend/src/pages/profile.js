@@ -51,7 +51,11 @@ export class Profile extends Component {
             /*
             .get("https://pythondeckbuilder.herokuapp.com/profile")
             */
-            .get("/profile")
+            // .get("/profile")
+            
+            .get("https://pythondeckbuilder.herokuapp.com/profile",{
+                withCredentials: true
+            })
             .then(res => {
                 var results = JSON.parse(res.data["profile"]);
                 var array = [];
