@@ -172,12 +172,11 @@ export class CreateDeck extends Component {
         };
         // remember to add withCredentials: true
         axios
-            /*
+            // .post("/createdeck", deckInfo)
+
             .post("https://pythondeckbuilder.herokuapp.com/createdeck", deckInfo, {
                 withCredentials: true
             })
-            */
-            .post("/createdeck", deckInfo)
             .then(res => {
                 console.log(res.data.status);
                 this.setState({

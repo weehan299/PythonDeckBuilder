@@ -82,12 +82,10 @@ class Signup extends Component {
             confirmPassword: this.state.confirmPassword
         };
         axios
-            /*
+            // .post("/signup", userInfo)
             .post("https://pythondeckbuilder.herokuapp.com/signup", userInfo, {
                 withCredentials: true
             })
-            */
-            .post("/signup", userInfo)
             .then(res => {
                 localStorage.setItem("authenticated", "true");
                 console.log("hello", res);
