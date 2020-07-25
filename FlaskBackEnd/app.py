@@ -11,8 +11,8 @@ from deck.deck_blueprint import deck_blueprint
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-#CORS(app=app, origins=["https://pythonankibuilder.web.app","localhost:3000"],\
-        #supports_credentials=True)
+CORS(app=app, origins=["https://pythonankibuilder.web.app","localhost:3000"],\
+        supports_credentials=True)
 
 CORS(app)
 app.register_blueprint(user_blueprint)
