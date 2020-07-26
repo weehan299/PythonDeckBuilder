@@ -46,12 +46,12 @@ Currently, **an account** is required to access our service of creating and mana
 4. (***NEW*** Optional) Select your deck style by clicking on the ***preview and styler*** button. 
 5. Click the ***Create Deck*** button at the bottom. Upon successful creation, a notification box will pop up and you can choose to go to your profile page or close the notification.
 6. For this version, we can mainly support **text-input and simple numerical inputs** (eg. + , - , =). Images and Latex are not supported yet.
-7. You can also **bold**, *italic*, <u>underline</u> your content. However, please do not change the styling for the '-' in front of your answer as it will casue bugs in the decks produced.
+7. You can also **bold**, *italic*, <u>underline</u> your content. However, please do not change the styling for the '-' in front of your answer as it will cause bugs in the decks produced.
 
 ### (NEW) Preview and Styler
 1. At the create deck page, you can now click the ***preview and styler*** button at the bottom
 2. There are 3 styles provided for now, do give it a try by clicking on the 'dark mode' or 'dark mode with colour palette'<br>
-   We will add in more interesting styles and freedom for users to customerise their deck styles in the future.
+   We will add in more interesting styles and freedom for users to customise their deck styles in the future.
 3. Click *SAVE AND CLOSE*
 
 ### Profile
