@@ -6,7 +6,7 @@ chardet==3.0.4
 click==7.1.2
 firebase-admin==4.3.0
 Flask==1.1.2
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 frozendict==1.2
 gcloud==0.17.0
 genanki==0.8.0
